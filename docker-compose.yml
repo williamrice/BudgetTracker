@@ -1,0 +1,50 @@
+services:
+  budgettracker-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8080"
+    depends_on:
+      - budgettracker-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=budgettracker-db;Database=BudgetTrackerDb;Username=postgres;Password=YourStrong@Passw0rd
+    volumes:
+      - ./BudgetTracker.Web:/app
+    networks:
+      - budgettracker-network
+
+  budgettracker-db:
+    image: postgres:16
+    container_name: budgettracker-db
+    environment:
+      - POSTGRES_DB=BudgetTrackerDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=YourStrong@Passw0rd
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - budgettracker-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "8080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    depends_on:
+      - budgettracker-db
+    networks:
+      - budgettracker-network
+
+volumes:
+  postgres_data:
+
+networks:
+  budgettracker-network:
+    driver: bridge

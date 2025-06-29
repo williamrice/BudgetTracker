@@ -1,0 +1,35 @@
+# Ignore build outputs for all projects
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker volumes and overrides
+**/postgres_data/
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# User secrets
+**/secrets.json
+
+# EF Core Migrations snapshot
+**/*.Designer.cs
+
+# npm/yarn/pnpm (if you add JS tooling)
+node_modules/
