@@ -8,9 +8,9 @@ namespace BudgetTracker.Models
         public string? LastName { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
-        public virtual ICollection<IncomeSource> IncomeSources { get; set; } = new List<IncomeSource>();
-        public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; } = new List<ExpenseCategory>();
-        public virtual ICollection<BudgetedExpense> BudgetedExpenses { get; set; } = new List<BudgetedExpense>();
-        public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
+        public ICollection<IncomeSource> IncomeSources { get; set; } = new List<IncomeSource>();
+        public ICollection<ExpenseCategory> ExpenseCategories { get; set; } = new List<ExpenseCategory>();
+        public ICollection<BudgetedExpense> BudgetedExpenses { get; set; } = new List<BudgetedExpense>();
+        public ICollection<Budget> Budgets { get; set; } = new List<Budget>();
     }
 }
