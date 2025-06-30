@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using BudgetTracker.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BudgetTracker.Data
 {
-    public class BudgetTrackerContext : DbContext
+    public class BudgetTrackerContext : IdentityDbContext<ApplicationUser>
     {
         public BudgetTrackerContext(DbContextOptions<BudgetTrackerContext> options)
             : base(options)

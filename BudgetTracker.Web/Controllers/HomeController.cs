@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BudgetTracker.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetTracker.Web.Controllers;
 
