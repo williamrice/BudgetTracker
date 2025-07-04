@@ -1,0 +1,30 @@
+@model IEnumerable<BudgetedExpense>
+
+<h1>Budgeted Expenses</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No budgeted expenses found.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model)
+            {
+                <tr>
+                    <td>@expense.Description</td>
+                    <td>@expense.BudgetedAmount</td>
+                    <td>@expense.Category</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

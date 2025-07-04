@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BudgetTracker.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using BudgetTracker.Services;
+using BudgetTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddDbContext<BudgetTrackerContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //Identity Services

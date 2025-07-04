@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Data", "Budge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Web", "BudgetTracker.Web\BudgetTracker.Web.csproj", "{EE68194C-8B50-4F12-AABB-8C5F935C2582}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetTracker.Services", "BudgetTracker.Services\BudgetTracker.Services.csproj", "{21DACD31-AA23-46CF-8F7B-C5F1EB065E16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{EE68194C-8B50-4F12-AABB-8C5F935C2582}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE68194C-8B50-4F12-AABB-8C5F935C2582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE68194C-8B50-4F12-AABB-8C5F935C2582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DACD31-AA23-46CF-8F7B-C5F1EB065E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DACD31-AA23-46CF-8F7B-C5F1EB065E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DACD31-AA23-46CF-8F7B-C5F1EB065E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DACD31-AA23-46CF-8F7B-C5F1EB065E16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
