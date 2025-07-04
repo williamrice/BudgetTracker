@@ -74,10 +74,6 @@ public class ExpenseItemViewModel
     [DataType(DataType.Currency)]
     public decimal Amount { get; set; }
 
-    [Display(Name = "Date")]
-    [DataType(DataType.Date)]
-    public DateTime ExpenseDate { get; set; }
-
     [Display(Name = "Category")]
     public string CategoryName { get; set; } = string.Empty;
 
@@ -90,5 +86,4 @@ public class ExpenseItemViewModel
 
     // Helper property for display
     public string FormattedAmount => Amount.ToString("C");
-    public string FormattedDate => ExpenseDate.ToString("MM/dd/yyyy");
 }

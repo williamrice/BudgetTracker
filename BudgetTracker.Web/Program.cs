@@ -14,6 +14,7 @@ builder.Services.AddDbContext<BudgetTrackerContext>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //Identity Services

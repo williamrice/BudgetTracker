@@ -1,0 +1,35 @@
+@model BudgetTracker.Models.ViewModels.ExpenseFormViewModelBase
+@{
+    var formAction = ViewBag.FormAction as string ?? "Create";
+    var submitLabel = ViewBag.SubmitLabel as string ?? "Create";
+}
+
+<form asp-action="@formAction" method="post">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" />
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description" />
+    </div>
+    <div>
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" asp-items="Model.Categories" id="CategoryId"></select>
+        <button type="button" id="addCategoryBtn" style="margin-left:8px;">Add Category</button>
+    </div>
+    <button type="submit">@submitLabel</button>
+</form>
+
+@Html.Partial("_AddCategoryModal")
+
+@section Scripts {
+    <script src="~/js/category-modal.js"></script>
+    <script>
+        setupCategoryModal('CategoryId', 'addCategoryBtn');
+    </script>
+}

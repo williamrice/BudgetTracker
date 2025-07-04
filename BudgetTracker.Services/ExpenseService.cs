@@ -46,7 +46,6 @@ namespace BudgetTracker.Services
                 Id = expense.Id,
                 Name = expense.Name,
                 Amount = expense.BudgetedAmount,
-                ExpenseDate = expense.CreatedDate,
                 CategoryId = expense.CategoryId,
                 Categories = categories?.Select(c => new SelectListItem
                 {
@@ -103,7 +102,6 @@ namespace BudgetTracker.Services
                     Id = e.Id,
                     Name = e.Name,
                     Amount = e.BudgetedAmount,
-                    ExpenseDate = e.CreatedDate,
                     CategoryName = e.Category?.Name
                 }).ToList(),
                 CurrentPage = page,

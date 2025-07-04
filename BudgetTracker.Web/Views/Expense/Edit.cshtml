@@ -1,0 +1,9 @@
+@model EditExpenseViewModel
+
+@{
+    ViewBag.Title = "Edit Budgeted Expense";
+    ViewBag.FormAction = "Edit";
+    ViewBag.SubmitLabel = "Update";
+}
+<h1>Edit Budgeted Expense</h1>
+<partial name="_ExpenseForm" model="Model" />
