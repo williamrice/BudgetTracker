@@ -3,6 +3,7 @@ using BudgetTracker.Models;
 using BudgetTracker.Data;
 using BudgetTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace BudgetTracker.Services
 {
@@ -30,7 +31,6 @@ namespace BudgetTracker.Services
                     Value = c.Id.ToString(),
                     Text = c.Name
                 }).ToList() ?? new List<SelectListItem>(),
-                ExpenseDate = DateTime.Today
             };
         }
 
@@ -57,15 +57,17 @@ namespace BudgetTracker.Services
             };
         }
 
-        public async Task<bool> CreateExpenseAsync(CreateExpenseViewModel model)
+        public async Task<bool> CreateExpenseAsync(CreateExpenseViewModel model, IdentityUser user)
         {
+            if (user == null || model == null) return false;
+
             var expense = new BudgetedExpense
             {
                 Name = model.Name,
                 BudgetedAmount = model.Amount,
                 Description = model.Description,
                 CategoryId = model.CategoryId,
-                UserId = model.UserId,
+                UserId = user.Id,
                 IsActive = true
             };
 
@@ -100,8 +102,8 @@ namespace BudgetTracker.Services
                 {
                     Id = e.Id,
                     Name = e.Name,
-                    Amount = e.Amount,
-                    ExpenseDate = e.ExpenseDate,
+                    Amount = e.BudgetedAmount,
+                    ExpenseDate = e.CreatedDate,
                     CategoryName = e.Category?.Name
                 }).ToList(),
                 CurrentPage = page,

@@ -1,16 +1,22 @@
 using BudgetTracker.Data;
 using BudgetTracker.Models;
+using BudgetTracker.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class ExpenseController : Controller
 {
     private readonly IRepository<BudgetedExpense> _expenseRepository;
     private readonly IRepository<ExpenseCategory> _expenseCategoryRepository;
 
-    public ExpenseController(IRepository<BudgetedExpense> expenseRepository, IRepository<ExpenseCategory> expenseCatRepository)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public ExpenseController(IRepository<BudgetedExpense> expenseRepository, IRepository<ExpenseCategory> expenseCatRepository, UserManager<ApplicationUser> userManager)
     {
         _expenseRepository = expenseRepository;
         _expenseCategoryRepository = expenseCatRepository;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -23,24 +29,48 @@ public class ExpenseController : Controller
         return View(expenses);
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        ViewBag.Categories = _expenseCategoryRepository.GetAllAsync().Result;
-        if (ViewBag.Categories == null || !ViewBag.Categories.Any())
+        var categories = await _expenseCategoryRepository.GetAllAsync();
+        var model = new CreateExpenseViewModel
         {
-            return View();
-        }
-        return View();
+            Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList(),
+        };
+        return View(model);
     }
 
     [HttpPost]
-    public IActionResult Create(BudgetedExpense expense)
+    public async Task<IActionResult> Create(CreateExpenseViewModel model)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            _expenseRepository.AddAsync(expense).Wait();
-            return RedirectToAction("Index");
+            var categories = await _expenseCategoryRepository.GetAllAsync();
+            model.Categories = categories.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
+            return View(model);
         }
-        return View(expense);
+
+        var user = await _userManager.GetUserAsync(User);
+
+        var expense = new BudgetedExpense
+        {
+            Name = model.Name,
+            Description = model.Description,
+            BudgetedAmount = model.Amount,
+            CategoryId = model.CategoryId,
+            CreatedDate = DateTime.UtcNow,
+            UserId = user.Id
+        };
+
+        await _expenseRepository.AddAsync(expense);
+        await _expenseRepository.SaveChangesAsync();
+        return RedirectToAction("Index");
     }
 }

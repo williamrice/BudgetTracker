@@ -1,4 +1,4 @@
-@model BudgetTracker.Models.BudgetedExpense
+@model BudgetTracker.Models.ViewModels.CreateExpenseViewModel
 @{
     ViewBag.Title = "Create Budgeted Expense";
 }
@@ -10,8 +10,8 @@
         <input asp-for="Name" />
     </div>
     <div>
-        <label asp-for="BudgetedAmount"></label>
-        <input asp-for="BudgetedAmount" />
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" />
     </div>
     <div>
         <label asp-for="Description"></label>
@@ -19,7 +19,7 @@
     </div>
     <div>
         <label asp-for="CategoryId"></label>
-        <select asp-for="CategoryId" asp-items="ViewBag.Categories"></select>
+        <select asp-for="CategoryId" asp-items="Model.Categories"></select>
     </div>
     <button type="submit">Create</button>
 </form>

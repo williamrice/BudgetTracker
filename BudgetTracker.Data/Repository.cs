@@ -80,6 +80,34 @@ namespace BudgetTracker.Data
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetPagedAsync(
+    int page,
+    int pageSize,
+    Expression<Func<T, object>>? orderBy = null,
+    bool descending = false)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+
+            IQueryable<T> query = _dbSet;
+
+            if (orderBy != null)
+            {
+                query = descending
+                    ? query.OrderByDescending(orderBy)
+                    : query.OrderBy(orderBy);
+            }
+            else
+            {
+                query = query.OrderBy(e => EF.Property<object>(e, "Id"));
+            }
+
+            return await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         // Helper method to build ID predicate
         private Expression<Func<T, bool>> GetIdPredicate(int id)
         {
@@ -90,10 +118,14 @@ namespace BudgetTracker.Data
             return Expression.Lambda<Func<T, bool>>(equal, parameter);
         }
 
-        // Original methods
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
         public void Update(T entity) => _dbSet.Update(entity);
         public void Remove(T entity) => _dbSet.Remove(entity);
         public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
+
+        public Task<int> GetCountAsync()
+        {
+            return _dbSet.CountAsync();
+        }
     }
 }

@@ -17,10 +17,6 @@ public class CreateExpenseViewModel
     public decimal Amount { get; set; }
 
     [Required]
-    [DataType(DataType.Date)]
-    public DateTime ExpenseDate { get; set; }
-
-    [Required]
     public int CategoryId { get; set; }
 
     public List<SelectListItem> Categories { get; set; } = new();

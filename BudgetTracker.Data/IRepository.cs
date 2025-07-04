@@ -15,6 +15,14 @@ namespace BudgetTracker.Data
         Task<T?> GetByIdAsync(int id, params string[] includes);
         Task<IEnumerable<T>> GetAllAsync(params string[] includes);
 
+        Task<IEnumerable<T>> GetPagedAsync(
+            int page,
+            int pageSize,
+            Expression<Func<T, object>>? orderBy = null,
+            bool descending = false);
+
+        Task<int> GetCountAsync();
+
         Task AddAsync(T entity);
         void Update(T entity);
         void Remove(T entity);
