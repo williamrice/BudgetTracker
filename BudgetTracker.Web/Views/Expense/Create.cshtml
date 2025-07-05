@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12 mb-2 mb-md-0">
             <h1 class="h3 mb-0">Add Recurring Expense</h1>
             <p class="text-muted">Track a new monthly expense like mortgage, utilities, subscriptions, or insurance</p>
             <div class="alert alert-info">
@@ -16,15 +16,15 @@
                 <strong>Note:</strong> Add fixed monthly expenses that repeat every month. This is not for tracking individual purchases or variable spending.
             </div>
         </div>
-        <div class="col-md-4 text-end">
-            <a asp-action="Index" class="btn btn-outline-secondary">
+        <div class="col-md-4 col-sm-12 text-md-end">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100 w-md-auto">
                 <i class="fas fa-arrow-left me-2"></i>Back to Expenses
             </a>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-xl-8 col-lg-10 col-md-12">
             <div class="dashboard-card">
                 <partial name="_ExpenseForm" model="Model" />
             </div>
@@ -33,18 +33,18 @@
 
     <!-- Examples Section -->
     <div class="row justify-content-center mt-4">
-        <div class="col-lg-8">
+        <div class="col-xl-8 col-lg-10 col-md-12">
             <div class="dashboard-card bg-light">
                 <h6 class="mb-3">💡 Common Recurring Expenses to Track:</h6>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12 mb-3 mb-lg-0">
                         <ul class="list-unstyled">
                             <li><strong>Housing:</strong> Mortgage/Rent, Property taxes, HOA fees</li>
                             <li><strong>Utilities:</strong> Electric, Gas, Water, Internet, Phone</li>
                             <li><strong>Insurance:</strong> Health, Auto, Home, Life</li>
                         </ul>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <ul class="list-unstyled">
                             <li><strong>Transportation:</strong> Car payments, Gas budget, Public transit</li>
                             <li><strong>Subscriptions:</strong> Netflix, Gym, Software, Magazines</li>

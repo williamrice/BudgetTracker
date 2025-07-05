@@ -8,31 +8,55 @@
     @if (SignInManager.IsSignedIn(User))
     {
         var user = UserManager.GetUserAsync(User).Result;
-        <li class="nav-item">
-            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index"
-                title="Manage">
-                <i class="fas fa-user-circle me-2"></i>@user?.FirstName
+        <li class="nav-item dropdown d-lg-none">
+            <a class="nav-link dropdown-toggle" href="#" id="mobileUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user-circle"></i>
+                <span class="d-none d-sm-inline ms-1">@user?.FirstName</span>
             </a>
+            <ul class="dropdown-menu" aria-labelledby="mobileUserDropdown">
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="fas fa-user-circle me-2"></i>Manage Account
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form id="logoutFormMobile" class="d-inline" asp-area="Identity" asp-page="/Account/Logout"
+                        asp-route-returnUrl="@Url.Action("Welcome", "Home", new { area = "" })">
+                        <button type="submit" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
         </li>
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-                asp-route-returnUrl="@Url.Action("Welcome", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-link border-0">
-                    <i class="fas fa-sign-out-alt me-2"></i>Logout
-                </button>
-            </form>
-        </li>
+        <div class="d-none d-lg-flex">
+            <li class="nav-item">
+                <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index"
+                    title="Manage">
+                    <i class="fas fa-user-circle me-2"></i>@user?.FirstName
+                </a>
+            </li>
+            <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+                    asp-route-returnUrl="@Url.Action("Welcome", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link border-0">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
+                </form>
+            </li>
+        </div>
     }
     else
     {
         <li class="nav-item">
             <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">
-                <i class="fas fa-user-plus me-2"></i>Register
+                <i class="fas fa-user-plus me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Register</span><span class="d-sm-none">Sign Up</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">
-                <i class="fas fa-sign-in-alt me-2"></i>Login
+                <i class="fas fa-sign-in-alt me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Login</span><span class="d-sm-none">Sign In</span>
             </a>
         </li>
     }

@@ -7,25 +7,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            content.classList.toggle('expanded');
+            // For mobile, use different classes
+            if (window.innerWidth <= 991.98) {
+                sidebar.classList.toggle('show');
+                // Add backdrop for mobile
+                if (sidebar.classList.contains('show')) {
+                    addBackdrop();
+                } else {
+                    removeBackdrop();
+                }
+            } else {
+                sidebar.classList.toggle('collapsed');
+                content.classList.toggle('expanded');
+            }
         });
     }
 
-    // Auto-collapse sidebar on mobile
+    // Auto-manage sidebar based on screen size
     function checkScreenSize() {
-        if (window.innerWidth <= 768) {
-            sidebar.classList.add('collapsed');
-            content.classList.add('expanded');
-        } else {
-            sidebar.classList.remove('collapsed');
+        removeBackdrop(); // Remove any existing backdrop
+        
+        if (window.innerWidth <= 991.98) {
+            // Mobile: hide sidebar by default
+            sidebar.classList.remove('collapsed', 'show');
             content.classList.remove('expanded');
+        } else {
+            // Desktop: show sidebar normally
+            sidebar.classList.remove('show', 'collapsed');
+            content.classList.remove('expanded');
+        }
+    }
+
+    // Add backdrop for mobile sidebar
+    function addBackdrop() {
+        let backdrop = document.querySelector('.sidebar-backdrop');
+        if (!backdrop) {
+            backdrop = document.createElement('div');
+            backdrop.className = 'sidebar-backdrop';
+            backdrop.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1039;
+            `;
+            backdrop.addEventListener('click', function() {
+                sidebar.classList.remove('show');
+                removeBackdrop();
+            });
+            document.body.appendChild(backdrop);
+        }
+    }
+
+    // Remove backdrop
+    function removeBackdrop() {
+        const backdrop = document.querySelector('.sidebar-backdrop');
+        if (backdrop) {
+            backdrop.remove();
         }
     }
 
     // Check screen size on load and resize
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
+
+    // Close mobile sidebar when clicking on nav links
+    const sidebarLinks = sidebar.querySelectorAll('a');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 991.98 && sidebar.classList.contains('show')) {
+                sidebar.classList.remove('show');
+                removeBackdrop();
+            }
+        });
+    });
 
     // Add fade-in animation to cards
     const cards = document.querySelectorAll('.dashboard-card, .stat-card');
@@ -61,11 +118,17 @@ function formatCurrency(value) {
     }).format(value);
 }
 
-// Function to show notifications
+// Function to show notifications (mobile-friendly)
 function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    
+    // Mobile-responsive positioning
+    const isMobile = window.innerWidth <= 575.98;
+    notification.style.cssText = isMobile 
+        ? 'top: 10px; left: 10px; right: 10px; z-index: 9999;'
+        : 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    
     notification.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

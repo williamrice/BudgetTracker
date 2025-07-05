@@ -6,12 +6,12 @@
 
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12 mb-2 mb-md-0">
             <h1 class="h3 mb-0">Income Sources</h1>
             <p class="text-muted">Manage your income sources and track your earnings</p>
         </div>
-        <div class="col-md-4 text-end">
-            <a asp-action="Create" class="btn btn-success">
+        <div class="col-md-4 col-sm-12 text-md-end">
+            <a asp-action="Create" class="btn btn-success w-100 w-md-auto">
                 <i class="fas fa-plus me-2"></i>Add New Income
             </a>
         </div>
@@ -19,7 +19,7 @@
 
     <!-- Summary Card -->
     <div class="row mb-4">
-        <div class="col-md-4">
+        <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="stat-card income">
                 <div class="stat-value">@Model.TotalActiveIncome.ToString("C")</div>
                 <div class="stat-label">Total Monthly Income</div>
@@ -41,11 +41,11 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th class="d-none d-md-table-cell">Description</th>
                                     <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Created</th>
-                                    <th>Actions</th>
+                                    <th class="d-none d-lg-table-cell">Status</th>
+                                    <th class="d-none d-xl-table-cell">Created</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,12 +54,26 @@
                                     <tr class="@(income.IsActive ? "" : "text-muted")">
                                         <td>
                                             <strong>@income.Name</strong>
+                                            <div class="d-md-none">
+                                                <small class="text-muted">@(income.Description ?? "No description")</small>
+                                                <br>
+                                                @if (income.IsActive)
+                                                {
+                                                    <span class="badge bg-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Inactive</span>
+                                                }
+                                                <br>
+                                                <small class="text-muted d-xl-none">@income.CreatedDate.ToString("MMM dd, yyyy")</small>
+                                            </div>
                                         </td>
-                                        <td>@(income.Description ?? "No description")</td>
+                                        <td class="d-none d-md-table-cell">@(income.Description ?? "No description")</td>
                                         <td>
-                                            <span class="amount-positive">@income.Amount.ToString("C")</span>
+                                            <span class="amount-positive fw-bold">@income.Amount.ToString("C")</span>
                                         </td>
-                                        <td>
+                                        <td class="d-none d-lg-table-cell">
                                             @if (income.IsActive)
                                             {
                                                 <span class="badge bg-success">Active</span>
@@ -69,11 +83,12 @@
                                                 <span class="badge bg-secondary">Inactive</span>
                                             }
                                         </td>
-                                        <td>@income.CreatedDate.ToString("MMM dd, yyyy")</td>
-                                        <td>
+                                        <td class="d-none d-xl-table-cell">@income.CreatedDate.ToString("MMM dd, yyyy")</td>
+                                        <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <a asp-action="Edit" asp-route-id="@income.Id" 
-                                                   class="btn btn-sm btn-outline-primary">
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form asp-action="ToggleActive" asp-route-id="@income.Id" 
@@ -86,6 +101,7 @@
                                                 </form>
                                                 <a asp-action="Delete" asp-route-id="@income.Id" 
                                                    class="btn btn-sm btn-outline-danger"
+                                                   title="Delete"
                                                    data-confirm-delete="Are you sure you want to delete '@income.Name'?">
                                                     <i class="fas fa-trash"></i>
                                                 </a>

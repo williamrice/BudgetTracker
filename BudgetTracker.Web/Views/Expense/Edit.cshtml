@@ -8,18 +8,19 @@
 
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12 mb-2 mb-md-0">
             <h1 class="h3 mb-0">Edit Recurring Expense</h1>
             <p class="text-muted">Update the details of your recurring monthly expense</p>
         </div>
-        <a asp-action="Index" class="btn btn-outline-secondary">
+        <div class="col-md-4 col-sm-12 text-md-end">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100 w-md-auto">
                 <i class="fas fa-arrow-left me-2"></i>Back to Expenses
             </a>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-xl-8 col-lg-10 col-md-12">
             <div class="dashboard-card">
                 <partial name="_ExpenseForm" model="Model" />
             </div>

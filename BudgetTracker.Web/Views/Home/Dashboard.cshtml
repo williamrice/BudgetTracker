@@ -18,7 +18,7 @@
 
     <!-- Financial Summary Cards -->
     <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
             <div class="stat-card income">
                 <div class="stat-value" data-currency>@Model.TotalMonthlyIncome.ToString("C")</div>
                 <div class="stat-label">Monthly Income</div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
             <div class="stat-card expense">
                 <div class="stat-value" data-currency>@Model.TotalRecurringExpenses.ToString("C")</div>
                 <div class="stat-label">Recurring Expenses</div>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
             <div class="stat-card @(Model.AvailableForSavings >= 0 ? "net" : "deficit")">
                 <div class="stat-value" data-currency>@Model.AvailableForSavings.ToString("C")</div>
                 <div class="stat-label">Available for Savings</div>
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 mb-3">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
             <div class="stat-card @(Model.ExpenseRatio <= 70 ? "good" : Model.ExpenseRatio <= 85 ? "warning" : "danger")">
                 <div class="stat-value">@Model.ExpenseRatio.ToString("F1")%</div>
                 <div class="stat-label">Expense Ratio</div>
@@ -113,24 +113,24 @@
             <div class="dashboard-card">
                 <h5 class="mb-3">Manage Your Budget</h5>
                 <div class="row">
-                    <div class="col-md-3 mb-2">
+                    <div class="col-xl-3 col-lg-6 col-md-6 mb-2">
                         <a asp-controller="Income" asp-action="Create" class="btn btn-success w-100">
-                            <i class="fas fa-plus me-2"></i>Add Income Source
+                            <i class="fas fa-plus me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Add Income Source</span><span class="d-sm-none">+ Income</span>
                         </a>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-xl-3 col-lg-6 col-md-6 mb-2">
                         <a asp-controller="Expense" asp-action="Create" class="btn btn-danger w-100">
-                            <i class="fas fa-plus me-2"></i>Add Recurring Expense
+                            <i class="fas fa-plus me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Add Recurring Expense</span><span class="d-sm-none">+ Expense</span>
                         </a>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-xl-3 col-lg-6 col-md-6 mb-2">
                         <a asp-controller="Income" asp-action="Index" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-list me-2"></i>Manage Income
+                            <i class="fas fa-list me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Manage Income</span><span class="d-sm-none">Income</span>
                         </a>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-xl-3 col-lg-6 col-md-6 mb-2">
                         <a asp-controller="Expense" asp-action="Index" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-list me-2"></i>Manage Expenses
+                            <i class="fas fa-list me-2 d-none d-sm-inline"></i><span class="d-none d-sm-inline">Manage Expenses</span><span class="d-sm-none">Expenses</span>
                         </a>
                     </div>
                 </div>
@@ -141,9 +141,9 @@
     <!-- Overview Sections -->
     <div class="row">
         <!-- Income Sources Overview -->
-        <div class="col-lg-6">
+        <div class="col-xl-6 col-lg-12 mb-4">
             <div class="dashboard-card">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                     <h5 class="mb-0">Income Sources</h5>
                     <a asp-controller="Income" asp-action="Index" class="btn btn-sm btn-outline-primary">Manage All</a>
                 </div>
@@ -177,9 +177,9 @@
         </div>
         
         <!-- Recurring Expenses Overview -->
-        <div class="col-lg-6">
+        <div class="col-xl-6 col-lg-12 mb-4">
             <div class="dashboard-card">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                     <h5 class="mb-0">Largest Recurring Expenses</h5>
                     <a asp-controller="Expense" asp-action="Index" class="btn btn-sm btn-outline-primary">Manage All</a>
                 </div>
@@ -227,9 +227,9 @@
                             var categoryTotal = categoryGroup.Sum(e => e.BudgetedAmount);
                             var percentage = Model.TotalRecurringExpenses > 0 ? (categoryTotal / Model.TotalRecurringExpenses * 100) : 0;
                             
-                            <div class="col-md-4 mb-3">
+                            <div class="col-lg-4 col-md-6 mb-3">
                                 <div class="category-breakdown">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
                                         <h6 class="mb-0">@categoryGroup.Key</h6>
                                         <span class="badge bg-primary">@percentage.ToString("F1")%</span>
                                     </div>

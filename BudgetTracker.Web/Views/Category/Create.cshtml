@@ -6,31 +6,31 @@
 
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12 mb-2 mb-md-0">
             <h1 class="h3 mb-0">Create Expense Category</h1>
             <p class="text-muted">Create a new category to organize your recurring expenses</p>
         </div>
-        <div class="col-md-4 text-end">
-            <a asp-action="Index" class="btn btn-outline-secondary">
+        <div class="col-md-4 col-sm-12 text-md-end">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100 w-md-auto">
                 <i class="fas fa-arrow-left me-2"></i>Back to Categories
             </a>
         </div>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-xl-8 col-lg-10 col-md-12">
             <div class="dashboard-card">
                 <form asp-action="Create" method="post" class="row g-3">
-                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger col-12"></div>
                     
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <label asp-for="Name" class="form-label">Category Name *</label>
                         <input asp-for="Name" class="form-control" placeholder="e.g., Housing, Utilities, Transportation" />
                         <div class="form-text">Give your category a descriptive name</div>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <label asp-for="Color" class="form-label">Category Color *</label>
                         <div class="input-group">
                             <input asp-for="Color" type="color" class="form-control form-control-color" />
@@ -40,7 +40,7 @@
                         <span asp-validation-for="Color" class="text-danger"></span>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12">
                         <label asp-for="MaxAmount" class="form-label">Budget Limit (Optional)</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
@@ -50,7 +50,7 @@
                         <span asp-validation-for="MaxAmount" class="text-danger"></span>
                     </div>
                     
-                    <div class="col-md-6"></div>
+                    <div class="col-lg-6 col-md-12"></div>
                     
                     <div class="col-12">
                         <label asp-for="Description" class="form-label">Description</label>
@@ -61,11 +61,11 @@
                     
                     <div class="col-12">
                         <hr class="my-4">
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-outline-secondary">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary w-100 w-md-auto">
                                 <i class="fas fa-times me-2"></i>Cancel
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary w-100 w-md-auto">
                                 <i class="fas fa-save me-2"></i>Create Category
                             </button>
                         </div>
@@ -77,25 +77,25 @@
 
     <!-- Examples Section -->
     <div class="row justify-content-center mt-4">
-        <div class="col-lg-8">
+        <div class="col-xl-8 col-lg-10 col-md-12">
             <div class="dashboard-card bg-light">
                 <h6 class="mb-3">💡 Common Category Examples:</h6>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-3 mb-lg-0">
                         <ul class="list-unstyled">
                             <li><strong>🏠 Housing:</strong> Mortgage, Rent, Property taxes</li>
                             <li><strong>⚡ Utilities:</strong> Electric, Gas, Water, Internet</li>
                             <li><strong>🚗 Transportation:</strong> Car payment, Insurance, Gas</li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-3 mb-lg-0">
                         <ul class="list-unstyled">
                             <li><strong>🛡️ Insurance:</strong> Health, Life, Home, Auto</li>
                             <li><strong>📱 Subscriptions:</strong> Netflix, Spotify, Software</li>
                             <li><strong>🏥 Healthcare:</strong> Medications, Therapy, Gym</li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
                         <ul class="list-unstyled">
                             <li><strong>💳 Debt:</strong> Credit cards, Student loans</li>
                             <li><strong>💰 Savings:</strong> Emergency fund, Retirement</li>

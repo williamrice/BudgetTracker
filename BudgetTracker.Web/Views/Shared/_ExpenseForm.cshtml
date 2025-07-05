@@ -5,14 +5,14 @@
 }
 
 <form asp-action="@formAction" method="post" class="row g-3">
-    <div class="col-md-6">
+    <div class="col-lg-6 col-md-12">
         <label asp-for="Name" class="form-label">Expense Name *</label>
         <input asp-for="Name" class="form-control" placeholder="e.g., Mortgage, Electric Bill, Netflix" />
         <div class="form-text">What is this recurring expense?</div>
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     
-    <div class="col-md-6">
+    <div class="col-lg-6 col-md-12">
         <label asp-for="Amount" class="form-label">Monthly Amount *</label>
         <div class="input-group">
             <span class="input-group-text">$</span>
@@ -22,14 +22,14 @@
         <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
     
-    <div class="col-md-8">
+    <div class="col-lg-8 col-md-12">
         <label asp-for="Description" class="form-label">Description</label>
         <input asp-for="Description" class="form-control" placeholder="Additional details about this expense" />
         <div class="form-text">Optional: Add notes about this recurring expense</div>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     
-    <div class="col-md-4">
+    <div class="col-lg-4 col-md-12">
         <label asp-for="CategoryId" class="form-label">Category *</label>
         <div class="input-group">
             <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select" id="CategoryId">
@@ -45,11 +45,11 @@
     
     <div class="col-12">
         <hr class="my-4">
-        <div class="d-flex justify-content-between">
-            <a asp-action="Index" class="btn btn-outline-secondary">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <a asp-action="Index" class="btn btn-outline-secondary w-100 w-md-auto">
                 <i class="fas fa-times me-2"></i>Cancel
             </a>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary w-100 w-md-auto">
                 <i class="fas fa-save me-2"></i>@submitLabel
             </button>
         </div>

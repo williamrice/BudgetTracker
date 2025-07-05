@@ -29,3 +29,82 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 767.98px) {
+  body {
+    margin-bottom: 80px; /* Account for mobile navigation */
+  }
+  
+  .container-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .form-control {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .table-responsive {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .alert {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  
+  .form-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 991.98px) {
+  .btn, .form-control, .form-select {
+    min-height: 44px; /* iOS recommended minimum touch target */
+  }
+  
+  .btn-sm {
+    min-height: 38px;
+  }
+  
+  .table td, .table th {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* Prevent horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/* Better focus styles for accessibility */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}
