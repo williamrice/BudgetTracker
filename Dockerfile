@@ -19,4 +19,6 @@ RUN dotnet publish "BudgetTracker.Web.csproj" -c Release -o /app/publish /p:UseA
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN dotnet tool install --global dotnet-ef --version 8.0.0
+ENV PATH="$PATH:/root/.dotnet/tools"
 ENTRYPOINT ["dotnet", "BudgetTracker.Web.dll"]
