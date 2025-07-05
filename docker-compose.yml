@@ -10,8 +10,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
       - ConnectionStrings__DefaultConnection=Host=budgettracker-db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
-    volumes:
-      - ./BudgetTracker.Web:/app
     networks:
       - budgettracker-network
 
