@@ -8,8 +8,8 @@ services:
     depends_on:
       - budgettracker-db
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=budgettracker-db;Database=BudgetTrackerDb;Username=postgres;Password=YourStrong@Passw0rd
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ConnectionStrings__DefaultConnection=Host=budgettracker-db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     volumes:
       - ./BudgetTracker.Web:/app
     networks:
@@ -19,9 +19,9 @@ services:
     image: postgres:16
     container_name: budgettracker-db
     environment:
-      - POSTGRES_DB=BudgetTrackerDb
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=YourStrong@Passw0rd
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -34,8 +34,8 @@ services:
     ports:
       - "8080:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
       - PGADMIN_CONFIG_SERVER_MODE=False
     depends_on:
       - budgettracker-db

@@ -9,8 +9,12 @@ using BudgetTracker.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") ??
+                       builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<BudgetTrackerContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
