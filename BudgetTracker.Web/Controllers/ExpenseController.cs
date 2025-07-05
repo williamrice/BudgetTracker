@@ -1,53 +1,41 @@
 using BudgetTracker.Data;
 using BudgetTracker.Models;
 using BudgetTracker.Models.ViewModels;
+using BudgetTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class ExpenseController : Controller
 {
     private readonly IRepository<BudgetedExpense> _expenseRepository;
     private readonly IRepository<ExpenseCategory> _expenseCategoryRepository;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IExpenseService _expenseService;
 
-    public ExpenseController(IRepository<BudgetedExpense> expenseRepository, IRepository<ExpenseCategory> expenseCatRepository, UserManager<ApplicationUser> userManager)
+    public ExpenseController(
+        IRepository<BudgetedExpense> expenseRepository,
+        IRepository<ExpenseCategory> expenseCatRepository,
+        UserManager<ApplicationUser> userManager,
+        IExpenseService expenseService)
     {
         _expenseRepository = expenseRepository;
         _expenseCategoryRepository = expenseCatRepository;
         _userManager = userManager;
+        _expenseService = expenseService;
     }
 
     public async Task<IActionResult> Index()
     {
         var expenses = await _expenseRepository.GetAllAsync();
         var categories = await _expenseCategoryRepository.GetAllAsync();
-        var expenseList = expenses.Select(e => new ExpenseItemViewModel
-        {
-            Id = e.Id,
-            Name = e.Name,
-            Description = e.Description,
-            Amount = e.BudgetedAmount,
-            CategoryName = categories.FirstOrDefault(c => c.Id == e.CategoryId)?.Name ?? "",
-        }).ToList();
-        var model = new ExpenseListViewModel
-        {
-            Expenses = expenseList
-        };
+        var model = _expenseService.PrepareListViewModel(expenses, categories);
         return View(model);
     }
 
     public async Task<IActionResult> Create()
     {
         var categories = await _expenseCategoryRepository.GetAllAsync();
-        var model = new CreateExpenseViewModel
-        {
-            Categories = categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList(),
-        };
+        var model = _expenseService.PrepareCreateViewModel(categories);
         return View(model);
     }
 
@@ -56,26 +44,15 @@ public class ExpenseController : Controller
     {
         if (!ModelState.IsValid)
         {
-            var categories = await _expenseCategoryRepository.GetAllAsync();
-            model.Categories = categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList();
-            return View(model);
+            RedirectToAction("Create");
         }
 
         var user = await _userManager.GetUserAsync(User);
-
-        var expense = new BudgetedExpense
+        if (user == null)
         {
-            Name = model.Name,
-            Description = model.Description,
-            BudgetedAmount = model.Amount,
-            CategoryId = model.CategoryId,
-            CreatedDate = DateTime.UtcNow,
-            UserId = user.Id
-        };
+            return Unauthorized();
+        }
+        var expense = _expenseService.PrepareExpenseFromViewModel(model, user);
 
         await _expenseRepository.AddAsync(expense);
         await _expenseRepository.SaveChangesAsync();
@@ -85,25 +62,12 @@ public class ExpenseController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var expense = await _expenseRepository.GetByIdAsync(id);
-        if (expense == null)
+        var categories = await _expenseCategoryRepository.GetAllAsync();
+        var model = _expenseService.PrepareEditViewModel(expense, categories);
+        if (model == null)
         {
             return NotFound();
         }
-
-        var categories = await _expenseCategoryRepository.GetAllAsync();
-        var model = new EditExpenseViewModel
-        {
-            Id = expense.Id,
-            Name = expense.Name,
-            Description = expense.Description,
-            Amount = expense.BudgetedAmount,
-            CategoryId = expense.CategoryId,
-            Categories = categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList(),
-        };
         return View(model);
     }
     [HttpPost]
@@ -111,13 +75,7 @@ public class ExpenseController : Controller
     {
         if (!ModelState.IsValid)
         {
-            var categories = await _expenseCategoryRepository.GetAllAsync();
-            model.Categories = categories.Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Name
-            }).ToList();
-            return View(model);
+            RedirectToAction("Edit", new { id = model.Id });
         }
 
         var expense = await _expenseRepository.GetByIdAsync(model.Id);

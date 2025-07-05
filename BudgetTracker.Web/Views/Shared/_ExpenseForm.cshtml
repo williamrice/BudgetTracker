@@ -25,11 +25,4 @@
     <button type="submit">@submitLabel</button>
 </form>
 
-@Html.Partial("_AddCategoryModal")
-
-@section Scripts {
-    <script src="~/js/category-modal.js"></script>
-    <script>
-        setupCategoryModal('CategoryId', 'addCategoryBtn');
-    </script>
-}
+<partial name="_AddCategoryModal" />

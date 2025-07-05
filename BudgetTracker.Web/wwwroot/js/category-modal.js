@@ -1,4 +1,5 @@
 function setupCategoryModal(selectId, triggerBtnId) {
+    console.log('Setting up category modal with selectId:', selectId, 'and triggerBtnId:', triggerBtnId);
     const modal = document.getElementById('categoryModal');
     const addBtn = document.getElementById(triggerBtnId);
     const closeBtn = document.getElementById('closeCategoryModal');
@@ -6,18 +7,21 @@ function setupCategoryModal(selectId, triggerBtnId) {
     const errorDiv = document.getElementById('categoryError');
     const catSelect = document.getElementById(selectId);
 
-    addBtn.onclick = function() {
+    addBtn.addEventListener('click', function() {
         modal.style.display = 'block';
         errorDiv.style.display = 'none';
         form.reset();
-    };
-    closeBtn.onclick = function() {
+    });
+    
+    closeBtn.addEventListener('click', function() {
         modal.style.display = 'none';
-    };
-    window.onclick = function(event) {
+    });
+    
+    window.addEventListener('click', function(event) {
         if (event.target === modal) modal.style.display = 'none';
-    };
-    form.onsubmit = async function(e) {
+    });
+    
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         errorDiv.style.display = 'none';
         const data = {
@@ -50,5 +54,5 @@ function setupCategoryModal(selectId, triggerBtnId) {
             errorDiv.textContent = err.message || 'Failed to add category.';
             errorDiv.style.display = 'block';
         }
-    };
+    });
 }

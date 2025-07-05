@@ -7,23 +7,28 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BudgetTracker.Services
 {
+
     public class ExpenseService : IExpenseService
     {
-        private readonly IRepository<BudgetedExpense> _expenseRepository;
-        private readonly IRepository<ExpenseCategory> _categoryRepository;
 
-        public ExpenseService(
-            IRepository<BudgetedExpense> expenseRepository,
-            IRepository<ExpenseCategory> categoryRepository)
+        public ExpenseListViewModel PrepareListViewModel(IEnumerable<BudgetedExpense> expenses, IEnumerable<ExpenseCategory> categories)
         {
-            _expenseRepository = expenseRepository;
-            _categoryRepository = categoryRepository;
+            var expenseList = expenses.Select(e => new ExpenseItemViewModel
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Amount = e.BudgetedAmount,
+                CategoryName = categories.FirstOrDefault(c => c.Id == e.CategoryId)?.Name ?? string.Empty
+            }).ToList();
+            return new ExpenseListViewModel
+            {
+                Expenses = expenseList
+            };
         }
 
-        public async Task<CreateExpenseViewModel> PrepareCreateViewModelAsync()
+        public CreateExpenseViewModel PrepareCreateViewModel(IEnumerable<ExpenseCategory> categories)
         {
-            var categories = await _categoryRepository.GetAllAsync();
-
             return new CreateExpenseViewModel
             {
                 Categories = categories?.Select(c => new SelectListItem
@@ -34,17 +39,14 @@ namespace BudgetTracker.Services
             };
         }
 
-        public async Task<EditExpenseViewModel> PrepareEditViewModelAsync(int id)
+        public EditExpenseViewModel? PrepareEditViewModel(BudgetedExpense? expense, IEnumerable<ExpenseCategory> categories)
         {
-            var expense = await _expenseRepository.GetByIdAsync(id);
             if (expense == null) return null;
-
-            var categories = await _categoryRepository.GetAllAsync();
-
             return new EditExpenseViewModel
             {
                 Id = expense.Id,
                 Name = expense.Name,
+                Description = expense.Description,
                 Amount = expense.BudgetedAmount,
                 CategoryId = expense.CategoryId,
                 Categories = categories?.Select(c => new SelectListItem
@@ -55,60 +57,18 @@ namespace BudgetTracker.Services
                 }).ToList() ?? new List<SelectListItem>()
             };
         }
-
-        public async Task<bool> CreateExpenseAsync(CreateExpenseViewModel model, IdentityUser user)
+        public BudgetedExpense PrepareExpenseFromViewModel(CreateExpenseViewModel model, ApplicationUser user)
         {
-            if (user == null || model == null) return false;
-
-            var expense = new BudgetedExpense
+            return new BudgetedExpense
             {
                 Name = model.Name,
-                BudgetedAmount = model.Amount,
                 Description = model.Description,
+                BudgetedAmount = model.Amount,
                 CategoryId = model.CategoryId,
-                UserId = user.Id,
-                IsActive = true
-            };
-
-            await _expenseRepository.AddAsync(expense);
-            var result = await _expenseRepository.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<bool> UpdateExpenseAsync(EditExpenseViewModel model)
-        {
-            var expense = await _expenseRepository.GetByIdAsync(model.Id);
-            if (expense == null) return false;
-
-            expense.Name = model.Name;
-            expense.BudgetedAmount = model.Amount;
-            expense.Description = model.Description;
-            expense.CategoryId = model.CategoryId;
-
-            _expenseRepository.Update(expense);
-            var result = await _expenseRepository.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<ExpenseListViewModel> GetExpenseListAsync(int page = 1, int pageSize = 10)
-        {
-            var expenses = await _expenseRepository.GetPagedAsync(page, pageSize);
-            var totalCount = await _expenseRepository.GetCountAsync();
-
-            return new ExpenseListViewModel
-            {
-                Expenses = expenses.Select(e => new ExpenseItemViewModel
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Amount = e.BudgetedAmount,
-                    CategoryName = e.Category?.Name
-                }).ToList(),
-                CurrentPage = page,
-                PageSize = pageSize,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+                UserId = user.Id
             };
         }
     }
 }
+
+

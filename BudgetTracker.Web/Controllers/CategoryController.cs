@@ -14,8 +14,11 @@ namespace BudgetTracker.Web.Controllers
         private readonly ICategoryService _categoryService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CategoryController(ICategoryService categoryService, UserManager<ApplicationUser> userManager)
+        private readonly IRepository<ExpenseCategory> _categoryRepository;
+
+        public CategoryController(ICategoryService categoryService, UserManager<ApplicationUser> userManager, IRepository<ExpenseCategory> categoryRepository)
         {
+            _categoryRepository = categoryRepository;
             _categoryService = categoryService;
             _userManager = userManager;
         }
@@ -30,23 +33,27 @@ namespace BudgetTracker.Web.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return Unauthorized("User not found.");
-            var result = await _categoryService.CreateCategoryAsync(model, user);
-            if (result == null)
+            
+            var category = _categoryService.CreateCategoryFromViewModel(model, user);
+            await _categoryRepository.AddAsync(category);
+            var result = await _categoryRepository.SaveChangesAsync();
+            
+            if (result <= 0)
                 return StatusCode(500, "Failed to create category.");
 
             return Json(new CategoryDto
             {
-                Id = result.Id,
-                Name = result.Name,
-                Description = result.Description,
-                Color = result.Color ?? "#007bff"
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                Color = category.Color ?? "#007bff"
             });
         }
 
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
+            var categories = await _categoryRepository.GetAllAsync();
             return Json(categories);
         }
     }

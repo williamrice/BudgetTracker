@@ -7,3 +7,10 @@
 <h1>Create Budgeted Expense</h1>
 
 <partial name="_ExpenseForm" model="Model" />
+
+@section Scripts {
+    <script src="~/js/category-modal.js"></script>
+    <script>
+        setupCategoryModal('CategoryId', 'addCategoryBtn');
+    </script>
+}
