@@ -1,20 +1,39 @@
-<div id="categoryModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000;">
-    <div style="background:#fff; padding:24px; border-radius:8px; width:350px; margin:100px auto; position:relative;">
-        <h3>Add New Category</h3>
-        <form id="categoryForm">
-            <div>
-                <label for="catName">Name</label>
-                <input type="text" id="catName" name="Name" maxlength="100" required />
+<dialog id="categoryModal" class="category-modal">
+    <div class="modal-content p-4">
+        <div class="modal-header d-flex justify-content-between align-items-center mb-3 gap-2">
+            <h3 class="modal-title mb-0">Quick Add Category</h3>
+            <button type="button" id="closeCategoryModal" class="btn-close text-danger" aria-label="Close"></button>
+        </div>
+        <form id="categoryForm" method="dialog">
+            <div class="mb-3">
+                <label for="catName" class="form-label fw-bold">Name *</label>
+                <input type="text" id="catName" name="Name" maxlength="100" required 
+                       class="form-control" 
+                       placeholder="e.g., Housing, Utilities, Transportation" />
             </div>
-            <div>
-                <label for="catDesc">Description</label>
-                <input type="text" id="catDesc" name="Description" maxlength="500" />
+            <div class="mb-3">
+                <label for="catDesc" class="form-label fw-bold">Description</label>
+                <input type="text" id="catDesc" name="Description" maxlength="500" 
+                       class="form-control" 
+                       placeholder="Optional description" />
             </div>
-            <div style="margin-top:12px;">
-                <button type="submit">Save</button>
-                <button type="button" id="closeCategoryModal">Cancel</button>
+            <div class="mb-3">
+                <label for="catColor" class="form-label fw-bold">Color</label>
+                <div class="color-input-group">
+                    <input type="color" id="catColor" name="Color" value="#1e3c72"
+                           class="color-picker-input" />
+                    <input type="text" id="catColorText" value="#1e3c72"
+                           class="form-control flex-fill" 
+                           placeholder="#1e3c72" />
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center gap-2 mt-4">
+                <button type="submit" value="submit"
+                        class="btn btn-primary">
+                    Add Category
+                </button>
             </div>
         </form>
-        <div id="categoryError" style="color:red; margin-top:8px; display:none;"></div>
+        <div id="categoryError" class="error-alert mt-3"></div>
     </div>
-</div>
+</dialog>

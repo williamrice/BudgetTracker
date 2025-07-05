@@ -15,6 +15,7 @@ public class HomeController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IRepository<IncomeSource> _incomeRepository;
     private readonly IRepository<BudgetedExpense> _expenseRepository;
+    private readonly IRepository<ExpenseCategory> _categoryRepository;
     private readonly IRepository<Budget> _budgetRepository;
 
     public HomeController(
@@ -22,12 +23,14 @@ public class HomeController : Controller
         UserManager<ApplicationUser> userManager,
         IRepository<IncomeSource> incomeRepository,
         IRepository<BudgetedExpense> expenseRepository,
+        IRepository<ExpenseCategory> categoryRepository,
         IRepository<Budget> budgetRepository)
     {
         _logger = logger;
         _userManager = userManager;
         _incomeRepository = incomeRepository;
         _expenseRepository = expenseRepository;
+        _categoryRepository = categoryRepository;
         _budgetRepository = budgetRepository;
     }
 
@@ -41,20 +44,26 @@ public class HomeController : Controller
 
         var incomes = await _incomeRepository.GetAllAsync();
         var expenses = await _expenseRepository.GetAllAsync();
-        var budgets = await _budgetRepository.GetAllAsync();
+        var categories = await _categoryRepository.GetAllAsync();
 
         var userIncomes = incomes.Where(i => i.UserId == user.Id && i.IsActive);
         var userExpenses = expenses.Where(e => e.UserId == user.Id && e.IsActive);
-        var userBudgets = budgets.Where(b => b.UserId == user.Id && b.IsActive);
+        var userCategories = categories.Where(c => c.UserId == user.Id);
+
+        // Group expenses by category for visualization
+        var expensesByCategory = userExpenses
+            .GroupBy(e => userCategories.FirstOrDefault(c => c.Id == e.CategoryId)?.Name ?? "Uncategorized")
+            .ToArray();
 
         var viewModel = new DashboardViewModel
         {
-            TotalIncome = userIncomes.Sum(i => i.Amount),
-            TotalExpenses = userExpenses.Sum(e => e.BudgetedAmount),
-            IncomeCount = userIncomes.Count(),
-            ExpenseCount = userExpenses.Count(),
-            RecentIncomes = userIncomes.OrderByDescending(i => i.CreatedDate).Take(5),
-            RecentExpenses = userExpenses.OrderByDescending(e => e.CreatedDate).Take(5),
+            TotalMonthlyIncome = userIncomes.Sum(i => i.Amount),
+            TotalRecurringExpenses = userExpenses.Sum(e => e.BudgetedAmount),
+            IncomeSourceCount = userIncomes.Count(),
+            RecurringExpenseCount = userExpenses.Count(),
+            IncomeSourcesOverview = userIncomes.OrderByDescending(i => i.Amount).Take(5),
+            RecurringExpensesOverview = userExpenses.OrderByDescending(e => e.BudgetedAmount).Take(5),
+            ExpensesByCategory = expensesByCategory,
             CurrentMonth = DateTime.Now.ToString("MMMM yyyy")
         };
 

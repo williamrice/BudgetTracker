@@ -1,0 +1,129 @@
+@model CreateCategoryViewModel
+@{
+    ViewData["Title"] = "Create Category";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0">Create Expense Category</h1>
+            <p class="text-muted">Create a new category to organize your recurring expenses</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Categories
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="dashboard-card">
+                <form asp-action="Create" method="post" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label">Category Name *</label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g., Housing, Utilities, Transportation" />
+                        <div class="form-text">Give your category a descriptive name</div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label asp-for="Color" class="form-label">Category Color *</label>
+                        <div class="input-group">
+                            <input asp-for="Color" type="color" class="form-control form-control-color" />
+                            <input asp-for="Color" type="text" class="form-control" placeholder="#1e3c72" />
+                        </div>
+                        <div class="form-text">Choose a color to identify this category</div>
+                        <span asp-validation-for="Color" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label asp-for="MaxAmount" class="form-label">Budget Limit (Optional)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input asp-for="MaxAmount" class="form-control" placeholder="0.00" step="0.01" />
+                        </div>
+                        <div class="form-text">Set a spending limit for this category (optional)</div>
+                        <span asp-validation-for="MaxAmount" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6"></div>
+                    
+                    <div class="col-12">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe what expenses belong in this category"></textarea>
+                        <div class="form-text">Optional: Add a description for this category</div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-12">
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Create Category
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Examples Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="dashboard-card bg-light">
+                <h6 class="mb-3">💡 Common Category Examples:</h6>
+                <div class="row">
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><strong>🏠 Housing:</strong> Mortgage, Rent, Property taxes</li>
+                            <li><strong>⚡ Utilities:</strong> Electric, Gas, Water, Internet</li>
+                            <li><strong>🚗 Transportation:</strong> Car payment, Insurance, Gas</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><strong>🛡️ Insurance:</strong> Health, Life, Home, Auto</li>
+                            <li><strong>📱 Subscriptions:</strong> Netflix, Spotify, Software</li>
+                            <li><strong>🏥 Healthcare:</strong> Medications, Therapy, Gym</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><strong>💳 Debt:</strong> Credit cards, Student loans</li>
+                            <li><strong>💰 Savings:</strong> Emergency fund, Retirement</li>
+                            <li><strong>🎯 Personal:</strong> Hobbies, Education, Charity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Sync color picker with text input
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorPicker = document.querySelector('input[type="color"]');
+            const colorText = document.querySelector('input[type="text"][name="Color"]');
+            
+            colorPicker.addEventListener('change', function() {
+                colorText.value = this.value;
+            });
+            
+            colorText.addEventListener('change', function() {
+                if (this.value.match(/^#[0-9A-F]{6}$/i)) {
+                    colorPicker.value = this.value;
+                }
+            });
+        });
+    </script>
+}

@@ -1,19 +1,18 @@
 @model EditExpenseViewModel
 @{
-    ViewData["Title"] = "Edit Expense";
+    ViewData["Title"] = "Edit Recurring Expense";
     Layout = "_DashboardLayout";
     ViewBag.FormAction = "Edit";
-    ViewBag.SubmitLabel = "Update Expense";
+    ViewBag.SubmitLabel = "Update Recurring Expense";
 }
 
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-8">
-            <h1 class="h3 mb-0">Edit Budgeted Expense</h1>
-            <p class="text-muted">Update your budgeted expense information</p>
+            <h1 class="h3 mb-0">Edit Recurring Expense</h1>
+            <p class="text-muted">Update the details of your recurring monthly expense</p>
         </div>
-        <div class="col-md-4 text-end">
-            <a asp-action="Index" class="btn btn-outline-secondary">
+        <a asp-action="Index" class="btn btn-outline-secondary">
                 <i class="fas fa-arrow-left me-2"></i>Back to Expenses
             </a>
         </div>

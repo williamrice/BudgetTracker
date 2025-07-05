@@ -1,16 +1,20 @@
 @model BudgetTracker.Models.ViewModels.CreateExpenseViewModel
 @{
-    ViewData["Title"] = "Add Expense";
+    ViewData["Title"] = "Add Recurring Expense";
     Layout = "_DashboardLayout";
     ViewBag.FormAction = "Create";
-    ViewBag.SubmitLabel = "Create Expense";
+    ViewBag.SubmitLabel = "Add Recurring Expense";
 }
 
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-8">
-            <h1 class="h3 mb-0">Add Budgeted Expense</h1>
-            <p class="text-muted">Create a new budgeted expense to track your spending</p>
+            <h1 class="h3 mb-0">Add Recurring Expense</h1>
+            <p class="text-muted">Track a new monthly expense like mortgage, utilities, subscriptions, or insurance</p>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Note:</strong> Add fixed monthly expenses that repeat every month. This is not for tracking individual purchases or variable spending.
+            </div>
         </div>
         <div class="col-md-4 text-end">
             <a asp-action="Index" class="btn btn-outline-secondary">
@@ -23,6 +27,31 @@
         <div class="col-lg-8">
             <div class="dashboard-card">
                 <partial name="_ExpenseForm" model="Model" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Examples Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="dashboard-card bg-light">
+                <h6 class="mb-3">💡 Common Recurring Expenses to Track:</h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><strong>Housing:</strong> Mortgage/Rent, Property taxes, HOA fees</li>
+                            <li><strong>Utilities:</strong> Electric, Gas, Water, Internet, Phone</li>
+                            <li><strong>Insurance:</strong> Health, Auto, Home, Life</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><strong>Transportation:</strong> Car payments, Gas budget, Public transit</li>
+                            <li><strong>Subscriptions:</strong> Netflix, Gym, Software, Magazines</li>
+                            <li><strong>Other:</strong> Savings goals, Debt payments, Memberships</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -13,7 +13,10 @@ namespace BudgetTracker.Services
             {
                 Name = model.Name,
                 Description = model.Description,
-                UserId = user.Id
+                MaxAmount = model.MaxAmount,
+                Color = model.Color,
+                UserId = user.Id,
+                IsActive = true
             };
         }
     }

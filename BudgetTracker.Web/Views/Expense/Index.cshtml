@@ -1,23 +1,23 @@
 @model ExpenseListViewModel
 @{
-    ViewData["Title"] = "Expenses";
+    ViewData["Title"] = "Recurring Expenses";
     Layout = "_DashboardLayout";
 }
 
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-8">
-            <h1 class="h3 mb-0">Budgeted Expenses</h1>
-            <p class="text-muted">Manage your budgeted expenses and track your spending</p>
+            <h1 class="h3 mb-0">Recurring Expenses</h1>
+            <p class="text-muted">Manage your fixed monthly expenses like mortgage, utilities, subscriptions, and insurance</p>
         </div>
         <div class="col-md-4 text-end">
             <a asp-action="Create" class="btn btn-danger">
-                <i class="fas fa-plus me-2"></i>Add New Expense
+                <i class="fas fa-plus me-2"></i>Add Recurring Expense
             </a>
         </div>
     </div>
 
-    <!-- Summary Card -->
+    <!-- Summary Cards -->
     @if (Model?.Expenses != null && Model.Expenses.Any())
     {
         <div class="row mb-4">
@@ -26,7 +26,25 @@
                     <div class="stat-value">@Model.Expenses.Sum(e => e.Amount).ToString("C")</div>
                     <div class="stat-label">Total Monthly Expenses</div>
                     <div class="mt-2">
-                        <small><i class="fas fa-arrow-down me-1"></i>@Model.Expenses.Count() expense(s)</small>
+                        <small><i class="fas fa-repeat me-1"></i>@Model.Expenses.Count() recurring expense(s)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-value">@Model.Expenses.GroupBy(e => e.CategoryName).Count()</div>
+                    <div class="stat-label">Categories</div>
+                    <div class="mt-2">
+                        <small><i class="fas fa-tags me-1"></i>expense categories</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-value">@Model.Expenses.Average(e => e.Amount).ToString("C")</div>
+                    <div class="stat-label">Average Expense</div>
+                    <div class="mt-2">
+                        <small><i class="fas fa-calculator me-1"></i>per recurring expense</small>
                     </div>
                 </div>
             </div>
@@ -40,50 +58,64 @@
                 @if (Model == null || Model.Expenses == null || !Model.Expenses.Any())
                 {
                     <div class="text-center py-5">
-                        <i class="fas fa-minus-circle fa-4x text-muted mb-3"></i>
-                        <h5 class="text-muted">No Budgeted Expenses Yet</h5>
-                        <p class="text-muted">Start by adding your first budgeted expense to track your spending</p>
+                        <i class="fas fa-receipt fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Recurring Expenses Yet</h5>
+                        <p class="text-muted">Add your fixed monthly expenses to start tracking your budget</p>
+                        <div class="mb-3">
+                            <small class="text-muted">Examples: Mortgage, Electric bill, Netflix subscription, Car insurance</small>
+                        </div>
                         <a asp-action="Create" class="btn btn-danger">
-                            <i class="fas fa-plus me-2"></i>Add First Expense
+                            <i class="fas fa-plus me-2"></i>Add Your First Recurring Expense
                         </a>
                     </div>
                 }
                 else
                 {
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Your Recurring Expenses</h5>
+                        <span class="text-muted">@Model.Expenses.Count() expense(s) totaling @Model.Expenses.Sum(e => e.Amount).ToString("C")/month</span>
+                    </div>
+                    
                     <div class="table-responsive">
                         <table class="table table-hover">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Amount</th>
+                                    <th>Expense Name</th>
                                     <th>Category</th>
-                                    <th>Actions</th>
+                                    <th>Monthly Amount</th>
+                                    <th>Description</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var expense in Model.Expenses)
+                                @foreach (var expense in Model.Expenses.OrderByDescending(e => e.Amount))
                                 {
                                     <tr>
                                         <td>
                                             <strong>@expense.Name</strong>
-                                        </td>
-                                        <td>@(expense.Description ?? "No description")</td>
-                                        <td>
-                                            <span class="amount-negative">@expense.Amount.ToString("C")</span>
+                                            <br><small class="text-muted">Recurring monthly expense</small>
                                         </td>
                                         <td>
-                                            <span class="badge bg-primary">@expense.CategoryName</span>
+                                            <span class="badge bg-primary rounded-pill">@expense.CategoryName</span>
                                         </td>
                                         <td>
+                                            <span class="fw-bold text-danger">@expense.Amount.ToString("C")</span>
+                                            <br><small class="text-muted">per month</small>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@(expense.Description ?? "No description provided")</span>
+                                        </td>
+                                        <td class="text-center">
                                             <div class="btn-group" role="group">
                                                 <a asp-action="Edit" asp-route-id="@expense.Id" 
-                                                   class="btn btn-sm btn-outline-primary">
+                                                   class="btn btn-sm btn-outline-primary" 
+                                                   title="Edit this expense">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a asp-action="Delete" asp-route-id="@expense.Id" 
                                                    class="btn btn-sm btn-outline-danger"
-                                                   data-confirm-delete="Are you sure you want to delete '@expense.Name'?">
+                                                   title="Delete this expense"
+                                                   data-confirm-delete="Are you sure you want to remove '@expense.Name' from your recurring expenses?">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>
@@ -91,7 +123,35 @@
                                     </tr>
                                 }
                             </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="2"><strong>Total Monthly Recurring Expenses:</strong></td>
+                                    <td><strong class="text-danger">@Model.Expenses.Sum(e => e.Amount).ToString("C")</strong></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
                         </table>
+                    </div>
+                    
+                    <div class="mt-3 p-3 bg-light rounded">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-lightbulb me-2"></i>Tips for Managing Recurring Expenses:</h6>
+                                <ul class="small mb-0">
+                                    <li>Review subscriptions quarterly to eliminate unused services</li>
+                                    <li>Set up automatic payments to avoid late fees</li>
+                                    <li>Track seasonal variations (like utility bills)</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-chart-line me-2"></i>Expense Analysis:</h6>
+                                <ul class="small mb-0">
+                                    <li>Largest expense: @Model.Expenses.OrderByDescending(e => e.Amount).First().Name (@Model.Expenses.Max(e => e.Amount).ToString("C"))</li>
+                                    <li>Most common category: @Model.Expenses.GroupBy(e => e.CategoryName).OrderByDescending(g => g.Count()).First().Key</li>
+                                    <li>Average monthly cost: @Model.Expenses.Average(e => e.Amount).ToString("C")</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>

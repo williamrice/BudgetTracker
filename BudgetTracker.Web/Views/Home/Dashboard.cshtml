@@ -1,90 +1,136 @@
 @model DashboardViewModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Budget Overview";
     Layout = "_DashboardLayout";
 }
 
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="h3 mb-3">Dashboard Overview</h1>
-            <p class="text-muted">@Model.CurrentMonth</p>
+            <h1 class="h3 mb-3">Monthly Budget Overview</h1>
+            <p class="text-muted">Track your recurring expenses and visualize your spending patterns • @Model.CurrentMonth</p>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>About this app:</strong> This tool helps you track recurring expenses like mortgage, utilities, subscriptions, and other fixed monthly costs to understand your spending patterns and plan for new purchases or savings goals.
+            </div>
         </div>
     </div>
 
-    <!-- Statistics Cards -->
+    <!-- Financial Summary Cards -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card income">
-                <div class="stat-value" data-currency>@Model.TotalIncome.ToString("C")</div>
-                <div class="stat-label">Total Income</div>
+                <div class="stat-value" data-currency>@Model.TotalMonthlyIncome.ToString("C")</div>
+                <div class="stat-label">Monthly Income</div>
                 <div class="mt-2">
-                    <small><i class="fas fa-arrow-up me-1"></i>@Model.IncomeCount source(s)</small>
+                    <small><i class="fas fa-dollar-sign me-1"></i>@Model.IncomeSourceCount source(s)</small>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stat-card expense">
-                <div class="stat-value" data-currency>@Model.TotalExpenses.ToString("C")</div>
-                <div class="stat-label">Total Expenses</div>
+                <div class="stat-value" data-currency>@Model.TotalRecurringExpenses.ToString("C")</div>
+                <div class="stat-label">Recurring Expenses</div>
                 <div class="mt-2">
-                    <small><i class="fas fa-arrow-down me-1"></i>@Model.ExpenseCount expense(s)</small>
+                    <small><i class="fas fa-repeat me-1"></i>@Model.RecurringExpenseCount fixed expense(s)</small>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card net">
-                <div class="stat-value" data-currency>@Model.NetAmount.ToString("C")</div>
-                <div class="stat-label">Net Amount</div>
+            <div class="stat-card @(Model.AvailableForSavings >= 0 ? "net" : "deficit")">
+                <div class="stat-value" data-currency>@Model.AvailableForSavings.ToString("C")</div>
+                <div class="stat-label">Available for Savings</div>
                 <div class="mt-2">
                     <small>
-                        @if (Model.NetAmount >= 0)
+                        @if (Model.AvailableForSavings >= 0)
                         {
-                            <i class="fas fa-check-circle me-1"></i><span>Surplus</span>
+                            <i class="fas fa-piggy-bank me-1"></i><span>Surplus Available</span>
                         }
                         else
                         {
-                            <i class="fas fa-exclamation-triangle me-1"></i><span>Deficit</span>
+                            <i class="fas fa-exclamation-triangle me-1"></i><span>Over Budget</span>
                         }
                     </small>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stat-card">
-                <div class="stat-value">@((Model.TotalIncome > 0 ? (Model.TotalExpenses / Model.TotalIncome * 100) : 0).ToString("F1"))%</div>
+            <div class="stat-card @(Model.ExpenseRatio <= 70 ? "good" : Model.ExpenseRatio <= 85 ? "warning" : "danger")">
+                <div class="stat-value">@Model.ExpenseRatio.ToString("F1")%</div>
                 <div class="stat-label">Expense Ratio</div>
                 <div class="mt-2">
-                    <small><i class="fas fa-percentage me-1"></i>of total income</small>
+                    <small>
+                        @if (Model.ExpenseRatio <= 70)
+                        {
+                            <i class="fas fa-check-circle me-1"></i><span>Healthy ratio</span>
+                        }
+                        else if (Model.ExpenseRatio <= 85)
+                        {
+                            <i class="fas fa-exclamation-circle me-1"></i><span>Moderate usage</span>
+                        }
+                        else
+                        {
+                            <i class="fas fa-exclamation-triangle me-1"></i><span>High usage</span>
+                        }
+                    </small>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Affordability Calculator -->
+    @if (Model.AvailableForSavings > 0)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="dashboard-card bg-light">
+                    <h5 class="mb-3"><i class="fas fa-calculator me-2"></i>Affordability Quick Check</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Available for new expenses or savings:</strong> @Model.AvailableForSavings.ToString("C")</p>
+                            <p><strong>Recommended monthly savings (20%):</strong> @Model.RecommendedSavingsAmount.ToString("C")</p>
+                            <p><strong>Safe amount for new recurring expenses:</strong> @((Model.AvailableForSavings - Model.RecommendedSavingsAmount).ToString("C"))</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="affordability-tips">
+                                <h6>💡 Financial Tips:</h6>
+                                <ul class="list-unstyled">
+                                    <li>• Keep expenses below 80% of income</li>
+                                    <li>• Save at least 20% of available funds</li>
+                                    <li>• Review recurring subscriptions quarterly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="dashboard-card">
-                <h5 class="mb-3">Quick Actions</h5>
+                <h5 class="mb-3">Manage Your Budget</h5>
                 <div class="row">
                     <div class="col-md-3 mb-2">
                         <a asp-controller="Income" asp-action="Create" class="btn btn-success w-100">
-                            <i class="fas fa-plus me-2"></i>Add Income
+                            <i class="fas fa-plus me-2"></i>Add Income Source
                         </a>
                     </div>
                     <div class="col-md-3 mb-2">
                         <a asp-controller="Expense" asp-action="Create" class="btn btn-danger w-100">
-                            <i class="fas fa-minus me-2"></i>Add Expense
+                            <i class="fas fa-plus me-2"></i>Add Recurring Expense
                         </a>
                     </div>
                     <div class="col-md-3 mb-2">
                         <a asp-controller="Income" asp-action="Index" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-list me-2"></i>View Income
+                            <i class="fas fa-list me-2"></i>Manage Income
                         </a>
                     </div>
                     <div class="col-md-3 mb-2">
                         <a asp-controller="Expense" asp-action="Index" class="btn btn-outline-primary w-100">
-                            <i class="fas fa-list me-2"></i>View Expenses
+                            <i class="fas fa-list me-2"></i>Manage Expenses
                         </a>
                     </div>
                 </div>
@@ -92,27 +138,28 @@
         </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Overview Sections -->
     <div class="row">
+        <!-- Income Sources Overview -->
         <div class="col-lg-6">
             <div class="dashboard-card">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0">Recent Income</h5>
-                    <a asp-controller="Income" asp-action="Index" class="btn btn-sm btn-outline-primary">View All</a>
+                    <h5 class="mb-0">Income Sources</h5>
+                    <a asp-controller="Income" asp-action="Index" class="btn btn-sm btn-outline-primary">Manage All</a>
                 </div>
                 
-                @if (Model.RecentIncomes.Any())
+                @if (Model.IncomeSourcesOverview.Any())
                 {
                     <div class="recent-items">
-                        @foreach (var income in Model.RecentIncomes)
+                        @foreach (var income in Model.IncomeSourcesOverview)
                         {
                             <div class="recent-item">
                                 <div class="recent-item-info">
                                     <h6>@income.Name</h6>
-                                    <p>@(income.Description ?? "No description")</p>
+                                    <p class="text-muted">@(income.Description ?? "Regular income source")</p>
                                 </div>
                                 <div class="recent-item-amount amount-positive">
-                                    +@income.Amount.ToString("C")
+                                    @income.Amount.ToString("C")/mo
                                 </div>
                             </div>
                         }
@@ -121,33 +168,34 @@
                 else
                 {
                     <div class="text-center py-4">
-                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">No income sources yet</p>
-                        <a asp-controller="Income" asp-action="Create" class="btn btn-success">Add First Income</a>
+                        <i class="fas fa-dollar-sign fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No income sources added yet</p>
+                        <a asp-controller="Income" asp-action="Create" class="btn btn-success">Add Your First Income</a>
                     </div>
                 }
             </div>
         </div>
         
+        <!-- Recurring Expenses Overview -->
         <div class="col-lg-6">
             <div class="dashboard-card">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0">Recent Expenses</h5>
-                    <a asp-controller="Expense" asp-action="Index" class="btn btn-sm btn-outline-primary">View All</a>
+                    <h5 class="mb-0">Largest Recurring Expenses</h5>
+                    <a asp-controller="Expense" asp-action="Index" class="btn btn-sm btn-outline-primary">Manage All</a>
                 </div>
                 
-                @if (Model.RecentExpenses.Any())
+                @if (Model.RecurringExpensesOverview.Any())
                 {
                     <div class="recent-items">
-                        @foreach (var expense in Model.RecentExpenses)
+                        @foreach (var expense in Model.RecurringExpensesOverview)
                         {
                             <div class="recent-item">
                                 <div class="recent-item-info">
                                     <h6>@expense.Name</h6>
-                                    <p>@(expense.Description ?? "No description")</p>
+                                    <p class="text-muted">@(expense.Description ?? "Recurring monthly expense")</p>
                                 </div>
                                 <div class="recent-item-amount amount-negative">
-                                    -@expense.BudgetedAmount.ToString("C")
+                                    @expense.BudgetedAmount.ToString("C")/mo
                                 </div>
                             </div>
                         }
@@ -156,26 +204,69 @@
                 else
                 {
                     <div class="text-center py-4">
-                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                        <p class="text-muted">No expenses yet</p>
-                        <a asp-controller="Expense" asp-action="Create" class="btn btn-danger">Add First Expense</a>
+                        <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No recurring expenses tracked yet</p>
+                        <p class="small text-muted">Add expenses like mortgage, utilities, subscriptions, insurance, etc.</p>
+                        <a asp-controller="Expense" asp-action="Create" class="btn btn-danger">Add Your First Expense</a>
                     </div>
                 }
             </div>
         </div>
     </div>
 
-    <!-- Chart Placeholder -->
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="dashboard-card">
-                <h5 class="mb-3">Financial Overview</h5>
-                <div class="text-center py-5">
-                    <i class="fas fa-chart-pie fa-4x text-muted mb-3"></i>
-                    <h6 class="text-muted">Charts and Analytics Coming Soon</h6>
-                    <p class="text-muted">Visual representations of your financial data will be available here</p>
+    <!-- Category Breakdown -->
+    @if (Model.ExpensesByCategory.Any())
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <h5 class="mb-3">Spending by Category</h5>
+                    <div class="row">
+                        @foreach (var categoryGroup in Model.ExpensesByCategory.OrderByDescending(g => g.Sum(e => e.BudgetedAmount)))
+                        {
+                            var categoryTotal = categoryGroup.Sum(e => e.BudgetedAmount);
+                            var percentage = Model.TotalRecurringExpenses > 0 ? (categoryTotal / Model.TotalRecurringExpenses * 100) : 0;
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="category-breakdown">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="mb-0">@categoryGroup.Key</h6>
+                                        <span class="badge bg-primary">@percentage.ToString("F1")%</span>
+                                    </div>
+                                    <div class="category-amount">@categoryTotal.ToString("C")/mo</div>
+                                    <div class="progress progress-thin">
+                                        <div class="progress-bar" style="width: @percentage%"></div>
+                                    </div>
+                                    <small class="text-muted">@categoryGroup.Count() expense(s)</small>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
+
+<style>
+.stat-card.good { border-left: 4px solid #28a745; }
+.stat-card.warning { border-left: 4px solid #ffc107; }
+.stat-card.danger { border-left: 4px solid #dc3545; }
+.stat-card.deficit { border-left: 4px solid #dc3545; background-color: #fff5f5; }
+.category-breakdown {
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+.category-amount {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #495057;
+}
+.affordability-tips {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #17a2b8;
+}
+</style>

@@ -2,8 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BudgetTracker.Models.ViewModels
 {
-    public class CreateCategoryViewModel
+    public class EditCategoryViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(100)]
         [Display(Name = "Category Name")]
@@ -19,5 +21,8 @@ namespace BudgetTracker.Models.ViewModels
         [Required]
         [Display(Name = "Color")]
         public string Color { get; set; } = "#1e3c72";
+
+        [Display(Name = "Active")]
+        public bool IsActive { get; set; } = true;
     }
 }

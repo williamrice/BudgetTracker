@@ -16,7 +16,7 @@ namespace BudgetTracker.Models
         public decimal? MaxAmount { get; set; }
 
         [MaxLength(7)]
-        public string Color { get; set; } = "#007bff";
+        public string Color { get; set; } = "#1e3c72";
 
         public bool IsActive { get; set; } = true;
 
