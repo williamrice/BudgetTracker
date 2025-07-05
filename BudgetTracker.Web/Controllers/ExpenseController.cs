@@ -2,9 +2,11 @@ using BudgetTracker.Data;
 using BudgetTracker.Models;
 using BudgetTracker.Models.ViewModels;
 using BudgetTracker.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 public class ExpenseController : Controller
 {
     private readonly IRepository<BudgetedExpense> _expenseRepository;
@@ -26,16 +28,33 @@ public class ExpenseController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var expenses = await _expenseRepository.GetAllAsync();
-        var categories = await _expenseCategoryRepository.GetAllAsync();
-        var model = _expenseService.PrepareListViewModel(expenses, categories);
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        var allExpenses = await _expenseRepository.GetAllAsync();
+        var userExpenses = allExpenses.Where(e => e.UserId == user.Id);
+        
+        var allCategories = await _expenseCategoryRepository.GetAllAsync();
+        var userCategories = allCategories.Where(c => c.UserId == user.Id);
+        
+        var model = _expenseService.PrepareListViewModel(userExpenses, userCategories);
         return View(model);
     }
 
     public async Task<IActionResult> Create()
     {
-        var categories = await _expenseCategoryRepository.GetAllAsync();
-        var model = _expenseService.PrepareCreateViewModel(categories);
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        var allCategories = await _expenseCategoryRepository.GetAllAsync();
+        var userCategories = allCategories.Where(c => c.UserId == user.Id);
+        var model = _expenseService.PrepareCreateViewModel(userCategories);
         return View(model);
     }
 

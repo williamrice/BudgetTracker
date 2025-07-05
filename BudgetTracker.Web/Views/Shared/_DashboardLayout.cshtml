@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Budget Tracker</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BudgetTracker.Web.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-chart-line me-2"></i>Budget Tracker</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="@(ViewContext.RouteData?.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                    <a asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData?.Values["controller"]?.ToString() == "Income" ? "active" : "")">
+                    <a asp-controller="Income" asp-action="Index">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Income
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData?.Values["controller"]?.ToString() == "Expense" ? "active" : "")">
+                    <a asp-controller="Expense" asp-action="Index">
+                        <i class="fas fa-minus-circle me-2"></i>
+                        Expenses
+                    </a>
+                </li>
+                <li class="@(ViewContext.RouteData?.Values["controller"]?.ToString() == "Category" ? "active" : "")">
+                    <a asp-controller="Category" asp-action="Index">
+                        <i class="fas fa-tags me-2"></i>
+                        Categories
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content" class="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarToggle" class="btn btn-outline-secondary">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="ms-auto">
+                        <span class="navbar-text">
+                            Welcome back, @User.Identity?.Name
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="main-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

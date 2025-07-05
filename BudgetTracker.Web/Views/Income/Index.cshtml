@@ -1,0 +1,114 @@
+@model IncomeListViewModel
+@{
+    ViewData["Title"] = "Income Sources";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0">Income Sources</h1>
+            <p class="text-muted">Manage your income sources and track your earnings</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="Create" class="btn btn-success">
+                <i class="fas fa-plus me-2"></i>Add New Income
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="stat-card income">
+                <div class="stat-value">@Model.TotalActiveIncome.ToString("C")</div>
+                <div class="stat-label">Total Monthly Income</div>
+                <div class="mt-2">
+                    <small><i class="fas fa-arrow-up me-1"></i>@Model.Incomes.Count() source(s)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Income List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="dashboard-card">
+                @if (Model.Incomes.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var income in Model.Incomes)
+                                {
+                                    <tr class="@(income.IsActive ? "" : "text-muted")">
+                                        <td>
+                                            <strong>@income.Name</strong>
+                                        </td>
+                                        <td>@(income.Description ?? "No description")</td>
+                                        <td>
+                                            <span class="amount-positive">@income.Amount.ToString("C")</span>
+                                        </td>
+                                        <td>
+                                            @if (income.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>@income.CreatedDate.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Edit" asp-route-id="@income.Id" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form asp-action="ToggleActive" asp-route-id="@income.Id" 
+                                                      method="post" class="d-inline">
+                                                    <button type="submit" 
+                                                            class="btn btn-sm @(income.IsActive ? "btn-outline-warning" : "btn-outline-success")"
+                                                            title="@(income.IsActive ? "Deactivate" : "Activate")">
+                                                        <i class="fas @(income.IsActive ? "fa-pause" : "fa-play")"></i>
+                                                    </button>
+                                                </form>
+                                                <a asp-action="Delete" asp-route-id="@income.Id" 
+                                                   class="btn btn-sm btn-outline-danger"
+                                                   data-confirm-delete="Are you sure you want to delete '@income.Name'?">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-plus-circle fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Income Sources Yet</h5>
+                        <p class="text-muted">Start by adding your first income source to track your earnings</p>
+                        <a asp-action="Create" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>Add First Income
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

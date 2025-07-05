@@ -5,6 +5,7 @@ using BudgetTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BudgetTracker.Web.Controllers
@@ -55,6 +56,21 @@ namespace BudgetTracker.Web.Controllers
         {
             var categories = await _categoryRepository.GetAllAsync();
             return Json(categories);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var allCategories = await _categoryRepository.GetAllAsync();
+            var userCategories = allCategories.Where(c => c.UserId == user.Id).OrderByDescending(c => c.CreatedDate);
+            
+            return View(userCategories);
         }
     }
 }

@@ -34,6 +34,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<BudgetTrackerContext>()
   .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Home/Welcome";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Home/Welcome";
+});
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

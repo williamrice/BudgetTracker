@@ -1,0 +1,118 @@
+@model IEnumerable<ExpenseCategory>
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0">Expense Categories</h1>
+            <p class="text-muted">Manage your expense categories to organize your spending</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                <i class="fas fa-plus me-2"></i>Add New Category
+            </button>
+        </div>
+    </div>
+
+    <!-- Summary Card -->
+    @if (Model.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-value">@Model.Count()</div>
+                    <div class="stat-label">Total Categories</div>
+                    <div class="mt-2">
+                        <small><i class="fas fa-tags me-1"></i>@Model.Count(c => c.IsActive) active</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Categories Grid -->
+    <div class="row">
+        @if (Model.Any())
+        {
+            @foreach (var category in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="dashboard-card @(category.IsActive ? "" : "text-muted")">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div style="width: 40px; height: 40px; background-color: @category.Color; border-radius: 8px;"></div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">@category.Name</h6>
+                                    @if (!string.IsNullOrEmpty(category.Description))
+                                    {
+                                        <small class="text-muted">@category.Description</small>
+                                    }
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas @(category.IsActive ? "fa-pause" : "fa-play") me-2"></i>@(category.IsActive ? "Deactivate" : "Activate")</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="row text-center">
+                            <div class="col-6">
+                                @if (category.MaxAmount.HasValue)
+                                {
+                                    <div class="h6 mb-0">@category.MaxAmount.Value.ToString("C")</div>
+                                    <small class="text-muted">Budget Limit</small>
+                                }
+                                else
+                                {
+                                    <div class="h6 mb-0 text-muted">No Limit</div>
+                                    <small class="text-muted">Budget Limit</small>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <div class="h6 mb-0">@category.BudgetedExpenses.Count</div>
+                                <small class="text-muted">Expenses</small>
+                            </div>
+                        </div>
+
+                        @if (!category.IsActive)
+                        {
+                            <div class="mt-2">
+                                <span class="badge bg-secondary">Inactive</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <div class="text-center py-5">
+                        <i class="fas fa-tags fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">No Categories Yet</h5>
+                        <p class="text-muted">Start by creating your first expense category to organize your spending</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                            <i class="fas fa-plus me-2"></i>Create First Category
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Add Category Modal -->
+@await Html.PartialAsync("_AddCategoryModal")

@@ -1,12 +1,32 @@
 @model EditExpenseViewModel
-
 @{
-    ViewBag.Title = "Edit Budgeted Expense";
+    ViewData["Title"] = "Edit Expense";
+    Layout = "_DashboardLayout";
     ViewBag.FormAction = "Edit";
-    ViewBag.SubmitLabel = "Update";
+    ViewBag.SubmitLabel = "Update Expense";
 }
-<h1>Edit Budgeted Expense</h1>
-<partial name="_ExpenseForm" model="Model" />
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="h3 mb-0">Edit Budgeted Expense</h1>
+            <p class="text-muted">Update your budgeted expense information</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Expenses
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="dashboard-card">
+                <partial name="_ExpenseForm" model="Model" />
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/category-modal.js"></script>
