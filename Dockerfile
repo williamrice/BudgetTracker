@@ -16,16 +16,12 @@ RUN dotnet build "BudgetTracker.Web.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "BudgetTracker.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY entrypoint.sh .                      
+COPY entrypoint.sh .
 
-# Install dotnet-ef tool in the final image
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && dotnet tool install --global dotnet-ef \
+RUN dotnet tool install --global dotnet-ef \
     && chmod +x ./entrypoint.sh
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
