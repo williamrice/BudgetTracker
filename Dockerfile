@@ -13,17 +13,18 @@ COPY . .
 WORKDIR "/src/BudgetTracker.Web"
 RUN dotnet build "BudgetTracker.Web.csproj" -c Release -o /app/build
 
+# Migration stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS migrate
+WORKDIR /src
+COPY . .
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+CMD ["dotnet", "ef", "database", "update", "--project", "BudgetTracker.Web/BudgetTracker.Web.csproj", "--startup-project", "BudgetTracker.Web/BudgetTracker.Web.csproj"]
+
 FROM build AS publish
 RUN dotnet publish "BudgetTracker.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
+FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY entrypoint.sh .
-
-RUN dotnet tool install --global dotnet-ef \
-    && chmod +x ./entrypoint.sh
-
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["dotnet", "BudgetTracker.Web.dll"]
