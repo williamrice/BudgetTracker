@@ -30,22 +30,17 @@
                 </li>
             </ul>
         </li>
-        <div class="d-none d-lg-flex">
-            <li class="nav-item">
-                <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index"
-                    title="Manage">
-                    <i class="fas fa-user-circle me-2"></i>@user?.FirstName
-                </a>
-            </li>
-            <li class="nav-item">
-                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-                    asp-route-returnUrl="@Url.Action("Welcome", "Home", new { area = "" })">
-                    <button id="logout" type="submit" class="nav-link btn btn-link border-0">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </button>
-                </form>
-            </li>
-        </div>
+        <li class="nav-item d-none d-lg-flex flex-column align-items-start gap-1">
+            <a id="manage" class="nav-link px-0" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="fas fa-user-circle me-2"></i>@user?.FirstName
+            </a>
+            <form id="logoutForm" class="form-inline w-100" asp-area="Identity" asp-page="/Account/Logout"
+                asp-route-returnUrl="@Url.Action("Welcome", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link border-0 px-0">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </button>
+            </form>
+        </li>
     }
     else
     {

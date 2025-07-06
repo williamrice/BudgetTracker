@@ -1,4 +1,7 @@
 /* Dashboard Layout Styles */
+.text-muted {
+    color: #bfc9d1 !important;
+}
 .wrapper {
     display: flex;
     width: 100%;
