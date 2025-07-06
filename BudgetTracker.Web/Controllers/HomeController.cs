@@ -50,7 +50,6 @@ public class HomeController : Controller
         var userExpenses = expenses.Where(e => e.UserId == user.Id && e.IsActive);
         var userCategories = categories.Where(c => c.UserId == user.Id);
 
-        // Group expenses by category for visualization
         var expensesByCategory = userExpenses
             .GroupBy(e => userCategories.FirstOrDefault(c => c.Id == e.CategoryId)?.Name ?? "Uncategorized")
             .ToArray();
