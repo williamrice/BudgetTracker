@@ -84,7 +84,7 @@
                             <div class="col-6">
                                 @if (category.MaxAmount.HasValue)
                                 {
-                                    <div class="h6 mb-0">@category.MaxAmount.Value.ToString("C")</div>
+                                    <div class="h6 mb-0" data-currency>@category.MaxAmount.Value</div>
                                     <small class="text-muted">Budget Limit</small>
                                 }
                                 else

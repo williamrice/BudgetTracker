@@ -23,7 +23,7 @@
         <div class="row mb-4">
             <div class="col-lg-4 col-md-6 col-sm-6 mb-3">
                 <div class="stat-card expense">
-                    <div class="stat-value">@Model.Expenses.Sum(e => e.Amount).ToString("C")</div>
+                    <div class="stat-value" data-currency>@Model.Expenses.Sum(e => e.Amount)</div>
                     <div class="stat-label">Total Monthly Expenses</div>
                     <div class="mt-2">
                         <small><i class="fas fa-repeat me-1"></i>@Model.Expenses.Count() recurring expense(s)</small>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
                 <div class="stat-card">
-                    <div class="stat-value">@Model.Expenses.Average(e => e.Amount).ToString("C")</div>
+                    <div class="stat-value" data-currency>@Model.Expenses.Average(e => e.Amount)</div>
                     <div class="stat-label">Average Expense</div>
                     <div class="mt-2">
                         <small><i class="fas fa-calculator me-1"></i>per recurring expense</small>
@@ -73,7 +73,7 @@
                 {
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                         <h5 class="mb-0">Your Recurring Expenses</h5>
-                        <span class="text-muted d-none d-sm-inline">@Model.Expenses.Count() expense(s) totaling @Model.Expenses.Sum(e => e.Amount).ToString("C")/month</span>
+                        <span class="text-muted d-none d-sm-inline">@Model.Expenses.Count() expense(s) totaling <span data-currency>@Model.Expenses.Sum(e => e.Amount)</span>/month</span>
                     </div>
                     
                     <div class="table-responsive">
@@ -104,7 +104,7 @@
                                             <span class="badge bg-primary rounded-pill">@expense.CategoryName</span>
                                         </td>
                                         <td>
-                                            <span class="fw-bold text-danger">@expense.Amount.ToString("C")</span>
+                                            <span class="fw-bold text-danger" data-currency>@expense.Amount</span>
                                             <br><small class="text-muted">per month</small>
                                         </td>
                                         <td class="d-none d-xl-table-cell">
@@ -131,7 +131,7 @@
                             <tfoot class="table-light">
                                 <tr>
                                     <td colspan="2"><strong>Total Monthly Recurring Expenses:</strong></td>
-                                    <td><strong class="text-danger">@Model.Expenses.Sum(e => e.Amount).ToString("C")</strong></td>
+                                    <td><strong class="text-danger" data-currency>@Model.Expenses.Sum(e => e.Amount)</strong></td>
                                     <td class="d-none d-xl-table-cell"></td>
                                     <td></td>
                                 </tr>
@@ -152,9 +152,9 @@
                             <div class="col-lg-6 col-md-12">
                                 <h6><i class="fas fa-chart-line me-2"></i>Expense Analysis:</h6>
                                 <ul class="small mb-0">
-                                    <li>Largest expense: @Model.Expenses.OrderByDescending(e => e.Amount).First().Name (@Model.Expenses.Max(e => e.Amount).ToString("C"))</li>
+                                    <li>Largest expense: @Model.Expenses.OrderByDescending(e => e.Amount).First().Name (<span data-currency>@Model.Expenses.Max(e => e.Amount)</span>)</li>
                                     <li>Most common category: @Model.Expenses.GroupBy(e => e.CategoryName).OrderByDescending(g => g.Count()).First().Key</li>
-                                    <li>Average monthly cost: @Model.Expenses.Average(e => e.Amount).ToString("C")</li>
+                                    <li>Average monthly cost: <span data-currency>@Model.Expenses.Average(e => e.Amount)</span></li>
                                 </ul>
                             </div>
                         </div>

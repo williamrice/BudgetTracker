@@ -21,7 +21,7 @@
     <div class="row mb-4">
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="stat-card income">
-                <div class="stat-value">@Model.TotalActiveIncome.ToString("C")</div>
+                <div class="stat-value" data-currency>@Model.TotalActiveIncome</div>
                 <div class="stat-label">Total Monthly Income</div>
                 <div class="mt-2">
                     <small><i class="fas fa-arrow-up me-1"></i>@Model.Incomes.Count() source(s)</small>
@@ -71,7 +71,7 @@
                                         </td>
                                         <td class="d-none d-md-table-cell">@(income.Description ?? "No description")</td>
                                         <td>
-                                            <span class="amount-positive fw-bold">@income.Amount.ToString("C")</span>
+                                            <span class="amount-positive fw-bold" data-currency>@income.Amount</span>
                                         </td>
                                         <td class="d-none d-lg-table-cell">
                                             @if (income.IsActive)

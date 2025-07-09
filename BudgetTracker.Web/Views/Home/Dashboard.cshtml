@@ -128,9 +128,9 @@
                     <h5 class="mb-3"><i class="fas fa-calculator me-2"></i>Affordability Quick Check</h5>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Available for new expenses or savings:</strong> @Model.AvailableForSavings.ToString("C")</p>
-                            <p><strong>Recommended monthly savings (20%):</strong> @Model.RecommendedSavingsAmount.ToString("C")</p>
-                            <p><strong>Safe amount for new recurring expenses:</strong> @((Model.AvailableForSavings - Model.RecommendedSavingsAmount).ToString("C"))</p>
+                            <p><strong>Available for new expenses or savings:</strong> <span data-currency>@Model.AvailableForSavings</span></p>
+                            <p><strong>Recommended monthly savings (20%):</strong> <span data-currency>@Model.RecommendedSavingsAmount</span></p>
+                            <p><strong>Safe amount for new recurring expenses:</strong> <span data-currency>@(Model.AvailableForSavings - Model.RecommendedSavingsAmount)</span></p>
                         </div>
                         <div class="col-md-6">
                             <div class="affordability-tips">
@@ -200,7 +200,7 @@
                                     <p class="text-muted">@(income.Description ?? "Regular income source")</p>
                                 </div>
                                 <div class="recent-item-amount amount-positive">
-                                    @income.Amount.ToString("C")/mo
+                                    <span data-currency>@income.Amount</span>/mo
                                 </div>
                             </div>
                         }
@@ -236,7 +236,7 @@
                                     <p class="text-muted">@(expense.Description ?? "Recurring monthly expense")</p>
                                 </div>
                                 <div class="recent-item-amount amount-negative">
-                                    @expense.BudgetedAmount.ToString("C")/mo
+                                    <span data-currency>@expense.BudgetedAmount</span>/mo
                                 </div>
                             </div>
                         }
@@ -274,7 +274,7 @@
                                         <h6 class="mb-0">@categoryGroup.Key</h6>
                                         <span class="badge bg-primary">@percentage.ToString("F1")%</span>
                                     </div>
-                                    <div class="category-amount">@categoryTotal.ToString("C")/mo</div>
+                                    <div class="category-amount"><span data-currency>@categoryTotal</span>/mo</div>
                                     <div class="progress progress-thin">
                                         <div class="progress-bar" style="width: @percentage%"></div>
                                     </div>
