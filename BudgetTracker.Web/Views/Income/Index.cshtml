@@ -85,22 +85,22 @@
                                         </td>
                                         <td class="d-none d-xl-table-cell">@income.CreatedDate.ToString("MMM dd, yyyy")</td>
                                         <td class="text-center">
-                                            <div class="btn-group" role="group">
+                                            <div class="btn-group d-flex w-100 justify-content-center gap-2" role="group">
                                                 <a asp-action="Edit" asp-route-id="@income.Id" 
-                                                   class="btn btn-sm btn-outline-primary"
+                                                   class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
                                                    title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form asp-action="ToggleActive" asp-route-id="@income.Id" 
                                                       method="post" class="d-inline">
                                                     <button type="submit" 
-                                                            class="btn btn-sm @(income.IsActive ? "btn-outline-warning" : "btn-outline-success")"
+                                                            class="btn btn-sm d-flex align-items-center h-100 @(income.IsActive ? "btn-outline-warning" : "btn-outline-success")"
                                                             title="@(income.IsActive ? "Deactivate" : "Activate")">
                                                         <i class="fas @(income.IsActive ? "fa-pause" : "fa-play")"></i>
                                                     </button>
                                                 </form>
                                                 <a asp-action="Delete" asp-route-id="@income.Id" 
-                                                   class="btn btn-sm btn-outline-danger"
+                                                   class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center"
                                                    title="Delete"
                                                    data-confirm-delete="Are you sure you want to delete '@income.Name'?">
                                                     <i class="fas fa-trash"></i>

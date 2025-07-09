@@ -111,14 +111,14 @@
                                             <span class="text-muted">@(expense.Description ?? "No description provided")</span>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group" role="group">
+                                            <div class="d-flex w-100 justify-content-center gap-2" role="group">
                                                 <a asp-action="Edit" asp-route-id="@expense.Id" 
-                                                   class="btn btn-sm btn-outline-primary" 
+                                                   class="btn btn-sm btn-outline-primary d-flex align-items-center" 
                                                    title="Edit this expense">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a asp-action="Delete" asp-route-id="@expense.Id" 
-                                                   class="btn btn-sm btn-outline-danger"
+                                                   class="btn btn-sm btn-outline-danger d-flex align-items-center"
                                                    title="Delete this expense"
                                                    data-confirm-delete="Are you sure you want to remove '@expense.Name' from your recurring expenses?">
                                                     <i class="fas fa-trash"></i>
