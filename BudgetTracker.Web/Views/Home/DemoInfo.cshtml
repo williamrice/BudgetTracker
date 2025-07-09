@@ -1,0 +1,418 @@
+@{
+    ViewData["Title"] = "Demo - Budget Tracker";
+    Layout = "_Layout";
+}
+
+<!-- Hero Section-->
+<section class="hero-section py-5 mb-5" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%); border-bottom: 3px solid #3498db;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content">
+                    <div class="mb-4">
+                        <i class="fas fa-piggy-bank display-1 text-primary mb-3" style="font-size: 4rem;"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-4" style="color: #2c3e50;">
+                        Budget Tracker Demo
+                    </h1>
+                    <p class="lead mb-4" style="color: #34495e; font-size: 1.2rem;">
+                        Experience a fully functional personal budget management system designed to help you track recurring expenses and optimize your financial planning.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="@Url.Action("Demo", "Home")" class="btn btn-primary btn-lg shadow">
+                            <i class="fas fa-play me-2"></i>Launch Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Information Alert -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(155, 89, 182, 0.05) 100%);">
+                <div class="card-body p-4">
+                    <h5 class="card-title mb-4 text-primary fw-bold">
+                        <i class="fas fa-info-circle me-2"></i>Demo Information
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3 d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-success fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Realistic Sample Data</strong><br>
+                                        <small class="text-muted">Pre-loaded with comprehensive financial data</small>
+                                    </div>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-success fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Full Functionality</strong><br>
+                                        <small class="text-muted">All features available for testing</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-3 d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-clock text-warning fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Auto-Reset Every 30 Minutes</strong><br>
+                                        <small class="text-muted">Fresh data automatically restored</small>
+                                    </div>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-shield-alt text-primary fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <strong>No Registration Required</strong><br>
+                                        <small class="text-muted">Instant access to all features</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Feature Cards -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h2 class="text-center mb-5 fw-bold" style="color: #2c3e50;">Key Features</h2>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon-wrapper p-3 rounded-circle mx-auto" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-chart-line text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="color: #2c3e50;">Financial Dashboard</h5>
+                            <p class="card-text text-muted">
+                                Get a comprehensive overview of your monthly budget with visual charts and key metrics for better financial insights.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon-wrapper p-3 rounded-circle mx-auto" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-dollar-sign text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="color: #2c3e50;">Income Tracking</h5>
+                            <p class="card-text text-muted">
+                                Manage multiple income sources including salary, freelance work, and investments with detailed categorization.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon-wrapper p-3 rounded-circle mx-auto" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-repeat text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="color: #2c3e50;">Recurring Expenses</h5>
+                            <p class="card-text text-muted">
+                                Track fixed monthly expenses like rent, utilities, subscriptions, and insurance with automated calculations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="mb-3">
+                                <div class="feature-icon-wrapper p-3 rounded-circle mx-auto" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-tags text-white fs-2"></i>
+                                </div>
+                            </div>
+                            <h5 class="card-title fw-bold mb-3" style="color: #2c3e50;">Smart Categories</h5>
+                            <p class="card-text text-muted">
+                                Organize expenses into customizable categories with colors and spending limits for better budget control.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Demo Data Preview -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+                    <h3 class="text-white mb-0 fw-bold">
+                        <i class="fas fa-database me-2"></i>Sample Data Overview
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                            <div class="stat-card text-center p-4 border-0 shadow-sm h-100" style="background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.1) 100%); border-radius: 12px;">
+                                <div class="stat-icon mb-3">
+                                    <i class="fas fa-arrow-up text-success fs-1"></i>
+                                </div>
+                                <div class="stat-value fw-bold fs-2 text-success">$7,600</div>
+                                <div class="stat-label text-muted fw-semibold">Monthly Income</div>
+                                <div class="mt-2">
+                                    <small class="text-success"><i class="fas fa-chart-line me-1"></i>4 income sources</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                            <div class="stat-card text-center p-4 border-0 shadow-sm h-100" style="background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%); border-radius: 12px;">
+                                <div class="stat-icon mb-3">
+                                    <i class="fas fa-arrow-down text-danger fs-1"></i>
+                                </div>
+                                <div class="stat-value fw-bold fs-2 text-danger">$1,960</div>
+                                <div class="stat-label text-muted fw-semibold">Fixed Expenses</div>
+                                <div class="mt-2">
+                                    <small class="text-danger"><i class="fas fa-repeat me-1"></i>11 recurring items</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                            <div class="stat-card text-center p-4 border-0 shadow-sm h-100" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%); border-radius: 12px;">
+                                <div class="stat-icon mb-3">
+                                    <i class="fas fa-piggy-bank text-primary fs-1"></i>
+                                </div>
+                                <div class="stat-value fw-bold fs-2 text-primary">$5,640</div>
+                                <div class="stat-label text-muted fw-semibold">Available</div>
+                                <div class="mt-2">
+                                    <small class="text-primary"><i class="fas fa-percentage me-1"></i>74% savings rate</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
+                            <div class="stat-card text-center p-4 border-0 shadow-sm h-100" style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(142, 68, 173, 0.1) 100%); border-radius: 12px;">
+                                <div class="stat-icon mb-3">
+                                    <i class="fas fa-layer-group text-info fs-1"></i>
+                                </div>
+                                <div class="stat-value fw-bold fs-2 text-info">6</div>
+                                <div class="stat-label text-muted fw-semibold">Categories</div>
+                                <div class="mt-2">
+                                    <small class="text-info"><i class="fas fa-palette me-1"></i>Customizable</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Technical Details -->
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h4 class="mb-4 fw-bold" style="color: #2c3e50;">
+                                <i class="fas fa-code me-2 text-primary"></i>Built with Modern Technologies
+                            </h4>
+                            <p class="text-muted mb-4 fs-5">
+                                This application showcases modern web development practices using ASP.NET Core, Entity Framework, and PostgreSQL. 
+                                It demonstrates clean architecture, responsive design, and professional UI/UX patterns.
+                            </p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">ASP.NET Core 8.0</span>
+                                        </li>
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">Entity Framework Core</span>
+                                        </li>
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">PostgreSQL Database</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">Bootstrap 5 UI</span>
+                                        </li>
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">Responsive Design</span>
+                                        </li>
+                                        <li class="mb-3 d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-3 fs-5"></i>
+                                            <span class="fw-semibold">Clean Architecture</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <div class="p-4">
+                                <div class="mb-4">
+                                    <i class="fas fa-laptop-code text-primary" style="font-size: 5rem;"></i>
+                                </div>
+                                <h5 class="text-primary fw-bold mb-3">Ready to Explore?</h5>
+                                <a href="@Url.Action("Demo", "Home")" class="btn btn-primary btn-lg shadow">
+                                    <i class="fas fa-rocket me-2"></i>Start Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call-to-Action Section -->
+<div class="container mb-5" style="margin-bottom: 6rem !important;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg text-center" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+                <div class="card-body p-5">
+                    <h3 class="text-white mb-4 fw-bold">
+                        <i class="fas fa-star text-warning me-2"></i>Check Out the Demo!
+                    </h3>
+                    <p class="text-white-50 mb-4 fs-5">
+                        If you enjoy the demo, feel free to use the application for your personal budget management needs.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="@Url.Action("Demo", "Home")" class="btn btn-primary btn-lg shadow">
+                            <i class="fas fa-play me-2"></i>Launch Demo Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Styling for Enhanced Design -->
+<style>
+    /* Enhanced hover effects for cards */
+    .hover-card {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
+        z-index: 2;
+    }
+    
+    .feature-icon-wrapper {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hover-card:hover .feature-icon-wrapper {
+        transform: scale(1.1);
+    }
+    
+    /* Hero section animations */
+    .hero-content {
+        animation: fadeInUp 1s ease-out;
+        position: relative;
+        z-index: 1;
+    }
+    
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Enhanced shadow effects */
+    .shadow-lg {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    /* Improved button hover effects - Fixed for clickability */
+    .btn-lg {
+        position: relative;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-lg:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        z-index: 11;
+    }
+    
+    /* Ensure buttons and links maintain proper z-index */
+    .btn, .btn-primary, .btn-outline-secondary, .btn-outline-light {
+        position: relative;
+        z-index: 10;
+    }
+    
+    /* Fix for hero section buttons */
+    .hero-content .btn {
+        z-index: 12;
+    }
+    
+    /* Responsive enhancements */
+    @@media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .feature-icon-wrapper {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        .feature-icon-wrapper i {
+            font-size: 1.5rem !important;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem !important;
+        }
+    }
+    
+    /* Ensure proper spacing before footer */
+    body {
+        padding-bottom: 2rem;
+    }
+</style>

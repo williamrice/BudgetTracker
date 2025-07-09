@@ -5,6 +5,52 @@
 }
 
 <div class="container-fluid">
+    <!-- Demo Banner -->
+    @if (User.Identity != null && User.Identity.IsAuthenticated && User.Identity.Name == "demo@williamarice.com")
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Demo Mode:</strong> You're viewing a demo version of the Budget Tracker. Data resets automatically every 30 minutes.
+                        <a href="/demo" class="text-decoration-none ms-2">Learn more</a>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("ResetDemo", "Home")" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-refresh me-1"></i>Reset Demo Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Success/Error Messages -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        </div>
+    }
+
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="h3 mb-3">Monthly Budget Overview</h1>

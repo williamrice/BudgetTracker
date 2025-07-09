@@ -20,6 +20,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<DatabaseSeeder>();
+builder.Services.AddScoped<BudgetTracker.Web.Services.DemoService>();
+builder.Services.AddHostedService<BudgetTracker.Web.Services.DemoResetBackgroundService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 //Identity Services
@@ -54,7 +56,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -67,6 +68,21 @@ app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapRazorPages();
+
+app.MapControllerRoute(
+    name: "demo",
+    pattern: "demo",
+    defaults: new { controller = "Home", action = "DemoInfo" });
+
+app.MapControllerRoute(
+    name: "demo-start",
+    pattern: "demo/start",
+    defaults: new { controller = "Home", action = "Demo" });
+
+app.MapControllerRoute(
+    name: "demo-reset",
+    pattern: "demo/reset",
+    defaults: new { controller = "Home", action = "ResetDemo" });
 
 app.MapControllerRoute(
     name: "default",

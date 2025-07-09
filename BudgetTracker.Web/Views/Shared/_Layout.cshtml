@@ -4,52 +4,58 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BudgetTracker.Web</title>
+    <title>@ViewData["Title"] - Budget Tracker</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/modals.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BudgetTracker.Web.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
-                    <span class="d-none d-sm-inline">BudgetTracker</span>
-                    <span class="d-sm-none">Budget</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Simple Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="fas fa-piggy-bank me-2 fs-4"></i>
+                <span class="d-none d-sm-inline">Budget Tracker</span>
+                <span class="d-sm-none">Budget</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto">
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container-fluid px-2 px-sm-3">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </div>
+    </nav>
 
-    <footer class="border-top footer text-muted">
+    <!-- Main Content -->
+    <main class="flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="footer mt-auto">
         <div class="container">
-            &copy; 2025 - BudgetTracker.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="footer-bottom">
+                <p>
+                    &copy; @DateTime.Now.Year Budget Tracker. Built with <i class="fas fa-heart text-danger"></i> by 
+                    <a href="https://williamarice.com" target="_blank" class="text-decoration-none">William Rice</a>
+                    | <a href="https://github.com/williamrice" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </p>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

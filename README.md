@@ -1,4 +1,6 @@
+# This app was built for my portfolio and a learning experience.
 # Recurring Budget Tracker
+
 
 ## Purpose
 
@@ -113,6 +115,19 @@ BudgetTracker/
 ├── BudgetTracker.Web/           # MVC web application
 └── scripts/                     # Development and deployment scripts
 ```
+
+## Demo Mode
+
+The application includes a comprehensive demo mode for showcasing the features:
+
+### 🎯 Demo Features
+- **Live Demo**: Visit `/demo` to access the demo information page
+- **Auto-Login**: Automatically logs in with a demo user account
+- **Sample Data**: Includes realistic income sources, expenses, and categories
+- **Full Functionality**: Add, edit, and delete data to test all features
+- **Auto-Reset**: Demo data automatically resets every 30 minutes
+- **Manual Reset**: Use `/demo/reset` to manually reset demo data or click the Reset Demo button on Dashboard
+
 
 ## Contributing
 
