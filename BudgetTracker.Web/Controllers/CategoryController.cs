@@ -33,7 +33,7 @@ namespace BudgetTracker.Web.Controllers
                 return Unauthorized();
             }
 
-            var allCategories = await _categoryRepository.GetAllAsync();
+            var allCategories = await _categoryRepository.GetAllAsync(new [] { "BudgetedExpenses" });
             var userCategories = allCategories.Where(c => c.UserId == user.Id).OrderByDescending(c => c.CreatedDate);
             
             return View(userCategories);
