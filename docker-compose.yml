@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:8080"
+    depends_on:
+      - budgettracker-db
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
       - ConnectionStrings__DefaultConnection=Host=budgettracker-db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
